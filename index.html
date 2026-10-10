@@ -1723,7 +1723,16 @@ async function launchVideoPlayer(videoRef, encodedTitle, encodedDesc, type, vide
   playerContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;background:#000;">Loading Video...</div>';
   openModal('video');
 
-  const isLocal = type === 'local' || videoRef.startsWith('blob:') || videoRef.startsWith('local_') || videoRef.includes('.mp4') || videoRef.includes('videos/') || videoRef.startsWith('http');
+  const isLocal = type === 'local' || videoRef.startsWith('blob:') || videoRef.startsWith('local_') || videoRef.includes('.mp4') || videoRef.includes('videos/') || (videoRef.startsWith('http') && !videoRef.includes('youtube') && !videoRef.includes('youtu.be') && !videoRef.includes('drive.google.com'));
+
+  if (type === 'gdrive' || videoRef.includes('drive.google.com')) {
+    let driveEmbed = videoRef.replace(/\/view.*$/, '/preview').replace(/\/edit.*$/, '/preview');
+    if (!driveEmbed.includes('/preview')) driveEmbed += '/preview';
+    playerContainer.innerHTML = `
+      <iframe src="${driveEmbed}" allow="autoplay" allowfullscreen style="width:100%;height:100%;border:none;border-radius:12px;"></iframe>
+    `;
+    return;
+  }
 
   if (type === 'yt' || (!isLocal && videoRef.length === 11)) {
     playerContainer.innerHTML = `
@@ -1794,11 +1803,19 @@ async function adminPublishVideo() {
   } else {
     const url = document.getElementById('new-video-url').value.trim();
     if (!url) {
-      showToast('⚠️ Please enter a YouTube URL or Video link', '#f59e0b');
+      showToast('⚠️ Please enter a YouTube URL, Google Drive link, or video link', '#f59e0b');
       return;
     }
-    ytId = extractYoutubeId(url);
-    videoType = 'yt';
+    if (url.includes('drive.google.com')) {
+      ytId = url;
+      videoType = 'gdrive';
+    } else if (url.startsWith('http') && (url.includes('.mp4') || url.includes('.webm'))) {
+      ytId = url;
+      videoType = 'local';
+    } else {
+      ytId = extractYoutubeId(url);
+      videoType = 'yt';
+    }
   }
 
   const newVideo = { id: newId, cat, title, desc, ytId, duration, type: videoType };
