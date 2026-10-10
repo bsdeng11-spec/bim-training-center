@@ -732,12 +732,15 @@
       <p style="color:#64748b;font-size:14px;margin:0 0 24px;">Publish Revit modeling walkthroughs, AutoCAD simulations, or BIM clash reports via YouTube Link or Direct Video File.</p>
 
       <!-- Mode Selector -->
-      <div style="display:flex;gap:12px;margin-bottom:20px;background:#f1f5f9;padding:6px;border-radius:12px;max-width:400px;">
-        <button id="vmode-btn-yt" onclick="setVideoUploadMode('yt')" style="flex:1;background:#2563eb;color:white;border:none;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">
-          📺 YouTube Link
+      <div style="display:flex;gap:8px;margin-bottom:20px;background:#f1f5f9;padding:6px;border-radius:12px;max-width:580px;flex-wrap:wrap;">
+        <button id="vmode-btn-folder" onclick="setVideoUploadMode('folder')" style="flex:1;background:#2563eb;color:white;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
+          📂 Direct Folder (videos/)
         </button>
-        <button id="vmode-btn-file" onclick="setVideoUploadMode('file')" style="flex:1;background:transparent;color:#475569;border:none;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">
-          📁 Local Video File (.mp4)
+        <button id="vmode-btn-file" onclick="setVideoUploadMode('file')" style="flex:1;background:transparent;color:#475569;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
+          💻 Choose Local File
+        </button>
+        <button id="vmode-btn-yt" onclick="setVideoUploadMode('yt')" style="flex:1;background:transparent;color:#475569;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
+          📺 YouTube Link
         </button>
       </div>
 
@@ -747,13 +750,23 @@
           <input id="new-video-title" type="text" placeholder="e.g. Revit Concrete Slab & Rebar Detailing" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
         </div>
 
-        <!-- YouTube URL Input Container -->
-        <div id="vinput-container-yt" style="grid-column:1/-1;">
+        <!-- Mode 1: Direct Folder Path Input (default) -->
+        <div id="vinput-container-folder" style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Video Filename in <code style="color:#2563eb;background:#e0f2fe;padding:2px 6px;border-radius:4px;">videos/</code> folder *</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:700;color:#64748b;font-size:14px;background:#f1f5f9;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;">videos/</span>
+            <input id="new-video-folder-file" type="text" placeholder="my_lesson.mp4" style="flex:1;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+          </div>
+          <div style="font-size:12px;color:#64748b;margin-top:5px;">💡 Just copy your video file into the <strong>"videos"</strong> folder inside your project.</div>
+        </div>
+
+        <!-- Mode 2: YouTube URL Input Container -->
+        <div id="vinput-container-yt" style="display:none;grid-column:1/-1;">
           <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">YouTube URL or Video ID *</label>
           <input id="new-video-url" type="text" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
         </div>
 
-        <!-- File Upload Container (hidden by default) -->
+        <!-- Mode 3: Direct File Upload Container -->
         <div id="vinput-container-file" style="display:none;grid-column:1/-1;">
           <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Select Video File (.mp4, .webm, .mov) *</label>
           <div class="drop-zone" onclick="document.getElementById('new-video-file-input').click()" style="border:2px dashed #cbd5e1;border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:#f8fafc;">
@@ -1387,25 +1400,30 @@ async function getVideoFileFromIDB(id) {
 
 function setVideoUploadMode(mode) {
   currentVideoUploadMode = mode;
-  const btnYt = document.getElementById('vmode-btn-yt');
+  const btnFolder = document.getElementById('vmode-btn-folder');
   const btnFile = document.getElementById('vmode-btn-file');
-  const conYt = document.getElementById('vinput-container-yt');
-  const conFile = document.getElementById('vinput-container-file');
+  const btnYt = document.getElementById('vmode-btn-yt');
 
-  if (mode === 'yt') {
-    btnYt.style.background = '#2563eb';
-    btnYt.style.color = '#ffffff';
-    btnFile.style.background = 'transparent';
-    btnFile.style.color = '#475569';
-    conYt.style.display = 'block';
-    conFile.style.display = 'none';
-  } else {
-    btnFile.style.background = '#2563eb';
-    btnFile.style.color = '#ffffff';
-    btnYt.style.background = 'transparent';
-    btnYt.style.color = '#475569';
-    conFile.style.display = 'block';
-    conYt.style.display = 'none';
+  const conFolder = document.getElementById('vinput-container-folder');
+  const conFile = document.getElementById('vinput-container-file');
+  const conYt = document.getElementById('vinput-container-yt');
+
+  [btnFolder, btnFile, btnYt].forEach(b => {
+    if (b) { b.style.background = 'transparent'; b.style.color = '#475569'; }
+  });
+  [conFolder, conFile, conYt].forEach(c => {
+    if (c) c.style.display = 'none';
+  });
+
+  if (mode === 'folder') {
+    if (btnFolder) { btnFolder.style.background = '#2563eb'; btnFolder.style.color = '#ffffff'; }
+    if (conFolder) conFolder.style.display = 'block';
+  } else if (mode === 'file') {
+    if (btnFile) { btnFile.style.background = '#2563eb'; btnFile.style.color = '#ffffff'; }
+    if (conFile) conFile.style.display = 'block';
+  } else if (mode === 'yt') {
+    if (btnYt) { btnYt.style.background = '#2563eb'; btnYt.style.color = '#ffffff'; }
+    if (conYt) conYt.style.display = 'block';
   }
 }
 
@@ -1450,7 +1468,7 @@ function renderVideosCategory(category) {
   }
 
   container.innerHTML = videos.map(v => {
-    const isLocal = v.type === 'local' || (v.ytId && (v.ytId.startsWith('blob:') || v.ytId.startsWith('local_') || v.ytId.includes('.mp4')));
+    const isLocal = v.type === 'local' || (v.ytId && (v.ytId.startsWith('blob:') || v.ytId.startsWith('local_') || v.ytId.includes('.mp4') || v.ytId.includes('videos/')));
     const thumbHtml = isLocal
       ? `<div style="width:100%;height:100%;background:linear-gradient(135deg,#030712,#1e3a8a);display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;"><span style="font-size:44px;">🎬</span><span style="font-size:11px;color:#38bdf8;font-weight:900;letter-spacing:0.1em;margin-top:6px;">DIRECT HD VIDEO</span></div>`
       : `<img src="https://img.youtube.com/vi/${v.ytId}/mqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;opacity:0.8;" onerror="this.style.display='none'" />`;
@@ -1520,7 +1538,7 @@ async function launchVideoPlayer(videoRef, encodedTitle, encodedDesc, type, vide
   playerContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;background:#000;">Loading Video...</div>';
   openModal('video');
 
-  if (type === 'local' || videoRef.startsWith('blob:') || videoRef.startsWith('local_') || videoRef.includes('.mp4')) {
+  if (type === 'local' || videoRef.startsWith('blob:') || videoRef.startsWith('local_') || videoRef.includes('.mp4') || videoRef.includes('videos/')) {
     let playUrl = videoRef;
     if (videoId && (videoRef.startsWith('local_') || videoRef.startsWith('blob:'))) {
       const storedFile = await getVideoFileFromIDB(videoId);
@@ -1555,9 +1573,17 @@ async function adminPublishVideo() {
 
   const newId = 'vid_' + Date.now();
   let ytId = '';
-  let videoType = 'yt';
+  let videoType = 'local';
 
-  if (currentVideoUploadMode === 'file') {
+  if (currentVideoUploadMode === 'folder') {
+    const filename = document.getElementById('new-video-folder-file').value.trim();
+    if (!filename) {
+      showToast('⚠️ Please enter the video filename (e.g. lesson1.mp4)', '#f59e0b');
+      return;
+    }
+    ytId = filename.startsWith('videos/') ? filename : ('videos/' + filename);
+    videoType = 'local';
+  } else if (currentVideoUploadMode === 'file') {
     if (!selectedAdminVideoFile) {
       showToast('⚠️ Please select a video file from your computer first', '#f59e0b');
       return;
@@ -1583,13 +1609,17 @@ async function adminPublishVideo() {
   localStorage.setItem(STORAGE_KEY_VIDEOS, JSON.stringify(customVideos));
 
   document.getElementById('new-video-title').value = '';
-  document.getElementById('new-video-url').value = '';
+  const folderInput = document.getElementById('new-video-folder-file');
+  if (folderInput) folderInput.value = '';
+  const urlInput = document.getElementById('new-video-url');
+  if (urlInput) urlInput.value = '';
   document.getElementById('new-video-duration').value = '';
   document.getElementById('new-video-desc').value = '';
   selectedAdminVideoFile = null;
-  document.getElementById('vfile-selected-name').textContent = 'Click to choose video from your computer';
+  const fileLabel = document.getElementById('vfile-selected-name');
+  if (fileLabel) fileLabel.textContent = 'Click to choose video from your computer';
 
-  showToast('✅ Direct Video published successfully to Video Library!', '#22c55e');
+  showToast('✅ Video published successfully! Available in Video Library.', '#22c55e');
 }
 
 function adminPublishCourse() {
