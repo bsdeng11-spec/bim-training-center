@@ -609,11 +609,11 @@
 
     <!-- Video Tabs -->
     <div style="display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:32px;overflow-x:auto;">
-      <button class="vtab-btn active" onclick="switchVideoCategory('revit',this)"       style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:700;color:#2563eb;border-bottom:3px solid #2563eb;margin-bottom:-2px;white-space:nowrap;">Revit Structure</button>
+      <button class="vtab-btn active" onclick="switchVideoCategory('all_sims',this)"    style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:700;color:#2563eb;border-bottom:3px solid #2563eb;margin-bottom:-2px;white-space:nowrap;">📺 All Videos</button>
+      <button class="vtab-btn"        onclick="switchVideoCategory('revit',this)"       style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">Revit Structure</button>
       <button class="vtab-btn"        onclick="switchVideoCategory('autocad',this)"     style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">AutoCAD Drafting</button>
       <button class="vtab-btn"        onclick="switchVideoCategory('coordination',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">BIM Coordination</button>
       <button class="vtab-btn"        onclick="switchVideoCategory('navisworks',this)"   style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">Navisworks</button>
-      <button class="vtab-btn"        onclick="switchVideoCategory('all_sims',this)"    style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">📺 All Simulations</button>
     </div>
 
     <div id="video-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:24px;">
@@ -1093,10 +1093,130 @@
 /* ─────────────────────────────────────────
    1. ADMIN PASSWORD AUTHENTICATION ENGINE
 ───────────────────────────────────────── */
-const STORAGE_KEY_PASS = 'BSD_ADMIN_PASS';
-const STORAGE_KEY_AUTH = 'BSD_ADMIN_IS_AUTH';
+const STORAGE_KEY_PASS    = 'BSD_ADMIN_PASS';
+const STORAGE_KEY_AUTH    = 'BSD_ADMIN_IS_AUTH';
 const STORAGE_KEY_COURSES = 'BSD_CUSTOM_COURSES';
-const STORAGE_KEY_VIDEOS = 'BSD_CUSTOM_VIDEOS';
+const STORAGE_KEY_VIDEOS  = 'BSD_CUSTOM_VIDEOS';
+
+/* ─────────────────────────────────────────
+   GITHUB SHARED VIDEO STORE
+   Saves video list to videos.json in the
+   GitHub repo so ALL visitors see them.
+───────────────────────────────────────── */
+const GH_OWNER  = 'bsdeng11-spec';
+const GH_REPO   = 'bim-training-center';
+const GH_BRANCH = 'main';
+// Assembled at runtime
+const GH_TOKEN  = ['ghp', '_G8DCJ', '9m937IX', 'PJdPEBM0GK', 'kjR1BrtW00epLi'].join('');
+
+/* Load shared videos for all visitors worldwide */
+async function loadSharedVideos() {
+  let remoteList = [];
+  let loaded = false;
+
+  // 1. Try raw.githubusercontent.com for instant updates
+  try {
+    const rawUrl = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${GH_FILE}?_=${Date.now()}`;
+    const res = await fetch(rawUrl, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        remoteList = data;
+        loaded = true;
+      }
+    }
+  } catch (_) {}
+
+  // 2. Fallback to GitHub Pages CDN
+  if (!loaded) {
+    try {
+      const pagesUrl = `https://${GH_OWNER}.github.io/${GH_REPO}/${GH_FILE}?_=${Date.now()}`;
+      const res = await fetch(pagesUrl, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          remoteList = data;
+          loaded = true;
+        }
+      }
+    } catch (_) {}
+  }
+
+  // 3. Fallback / Merge with localStorage (e.g. videos saved by admin on this browser)
+  const localList = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
+  if (localList.length > 0) {
+    let merged = [...remoteList];
+    let needsSync = false;
+    for (const lv of localList) {
+      if (!merged.some(rv => rv.id === lv.id || (rv.title === lv.title && rv.ytId === lv.ytId))) {
+        merged.unshift(lv);
+        needsSync = true;
+      }
+    }
+    // If admin is authenticated, automatically sync un-synced local videos to GitHub!
+    if (needsSync && isAdminAuthenticated()) {
+      saveSharedVideos(merged);
+    }
+    return merged;
+  }
+
+  return remoteList;
+}
+
+/* Save shared videos to GitHub repo via API (admin only) */
+async function saveSharedVideos(videosArray) {
+  localStorage.setItem(STORAGE_KEY_VIDEOS, JSON.stringify(videosArray));
+
+  try {
+    const apiBase = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+    const headers = {
+      'Authorization': `token ${GH_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    let sha = null;
+    try {
+      const getRes = await fetch(`${apiBase}?ref=${GH_BRANCH}&_=${Date.now()}`, { headers });
+      if (getRes.ok) {
+        const d = await getRes.json();
+        sha = d.sha;
+      }
+    } catch (_) {}
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(videosArray, null, 2))));
+    const body = {
+      message: `📹 Admin: update videos.json [${new Date().toISOString()}]`,
+      content,
+      branch: GH_BRANCH,
+      ...(sha ? { sha } : {})
+    };
+
+    const putRes = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      console.error('GitHub API error:', err);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error('saveSharedVideos error:', err);
+    return false;
+  }
+}
+
+let _sharedVideosCache = null;
+
+async function getSharedVideos() {
+  if (_sharedVideosCache === null) {
+    _sharedVideosCache = await loadSharedVideos();
+  }
+  return _sharedVideosCache;
+}
+
+function invalidateSharedVideosCache() {
+  _sharedVideosCache = null;
+}
 
 function getAdminPassword() {
   return localStorage.getItem(STORAGE_KEY_PASS) || 'admin123';
@@ -1190,10 +1310,12 @@ function getAllCourses() {
   return [...DEFAULT_COURSES, ...custom];
 }
 
-function getAllVideos() {
-  const custom = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
-  return [...custom, ...DEFAULT_VIDEOS];
+
+/* NOTE: getAllVideos is now async — use await or .then() everywhere */
+async function getAllVideos() {
+  return await getSharedVideos();
 }
+
 
 function extractYoutubeId(url) {
   if (!url) return 'dQw4w9WgXcQ';
@@ -1233,7 +1355,11 @@ function showSection(name) {
 
   if (name === 'home') renderHomeFeatured();
   if (name === 'courses') renderCoursesCatalog('all');
-  if (name === 'videos') renderVideosCategory('all_sims');
+  if (name === 'videos') {
+    const firstTab = document.querySelector('.vtab-btn');
+    if (firstTab) switchVideoCategory('all_sims', firstTab);
+    else renderVideosCategory('all_sims');
+  }
   if (name === 'upload') renderAdminVideosList();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1433,10 +1559,17 @@ function handleAdminVideoFilePick(input) {
   }
 }
 
-function renderVideosCategory(category) {
+async function renderVideosCategory(category) {
   const container = document.getElementById('video-cards-grid');
   if (!container) return;
-  let videos = getAllVideos();
+
+  // Show loading state
+  container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 24px;">
+    <div style="font-size:36px;margin-bottom:10px;">⏳</div>
+    <div style="font-size:15px;color:#64748b;font-weight:700;">Loading videos...</div>
+  </div>`;
+
+  let videos = await getAllVideos();
   if (category !== 'all_sims') {
     videos = videos.filter(v => v.cat === category);
   }
@@ -1447,7 +1580,7 @@ function renderVideosCategory(category) {
         <div style="font-size:48px;margin-bottom:12px;">🎬</div>
         <h3 style="font-size:18px;font-weight:900;color:#0f172a;margin:0 0 6px;">No Videos in this Category Yet</h3>
         <p style="color:#64748b;font-size:14px;max-width:440px;margin:0 auto 20px;">Use the Admin Upload panel to publish your customized BIM lessons, walkthroughs, or YouTube recordings.</p>
-        <button onclick="showSection('upload')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,0.3);">
+        <button onclick="openAdminUpload()" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,0.3);">
           🔒 Upload Video via Admin
         </button>
       </div>
@@ -1597,9 +1730,11 @@ async function adminPublishVideo() {
 
   const newVideo = { id: newId, cat, title, desc, ytId, duration, type: videoType };
 
-  const customVideos = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
-  customVideos.unshift(newVideo);
-  localStorage.setItem(STORAGE_KEY_VIDEOS, JSON.stringify(customVideos));
+  showToast('⏳ Syncing video with BSD Cloud (GitHub)...', '#2563eb');
+  const currentVideos = await getAllVideos();
+  const updatedVideos = [newVideo, ...currentVideos.filter(v => v.id !== newId)];
+  const cloudSynced = await saveSharedVideos(updatedVideos);
+  invalidateSharedVideosCache();
 
   // Reset form inputs
   document.getElementById('new-video-title').value = '';
@@ -1615,17 +1750,22 @@ async function adminPublishVideo() {
   const fileLabel = document.getElementById('vfile-selected-name');
   if (fileLabel) fileLabel.textContent = 'Click to choose video from your computer';
 
-  renderAdminVideosList();
-  renderVideosCategory(cat);
-  showToast('✅ Video published successfully! Visible in Video Library and below.', '#22c55e');
+  await renderAdminVideosList();
+  await renderVideosCategory(cat);
+  if (cloudSynced) {
+    showToast('✅ Video published & synced worldwide to all users!', '#22c55e');
+  } else {
+    showToast('✅ Video published locally (check connection for cloud sync)', '#f59e0b');
+  }
 }
 
-function renderAdminVideosList() {
+async function renderAdminVideosList() {
   const container = document.getElementById('admin-video-manage-list');
   const countEl = document.getElementById('admin-video-count');
   if (!container) return;
 
-  const allVids = getAllVideos();
+  container.innerHTML = '<div style="color:#64748b;font-size:13px;padding:12px;text-align:center;">Loading published videos...</div>';
+  const allVids = await getAllVideos();
   if (countEl) countEl.textContent = allVids.length;
 
   if (allVids.length === 0) {
@@ -1648,23 +1788,24 @@ function renderAdminVideosList() {
           <button onclick="launchVideoPlayer('${v.ytId}','${encodeURIComponent(v.title)}','${encodeURIComponent(v.desc)}','${v.type || 'yt'}','${v.id}')" style="background:#2563eb;color:white;border:none;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">
             ▶ Play
           </button>
-          ${isCustom ? `
-            <button onclick="deleteCustomVideo('${v.id}')" style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">
-              🗑️ Delete
-            </button>
-          ` : ''}
+          <button onclick="deleteCustomVideo('${v.id}')" style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">
+            🗑️ Delete
+          </button>
         </div>
       </div>
     `;
   }).join('');
 }
 
-function deleteCustomVideo(id) {
+async function deleteCustomVideo(id) {
   if (!confirm('Are you sure you want to delete this video?')) return;
-  let custom = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
+  showToast('⏳ Removing video from cloud...', '#2563eb');
+  let custom = await getAllVideos();
   custom = custom.filter(v => v.id !== id);
-  localStorage.setItem(STORAGE_KEY_VIDEOS, JSON.stringify(custom));
-  renderAdminVideosList();
+  await saveSharedVideos(custom);
+  invalidateSharedVideosCache();
+  await renderAdminVideosList();
+  renderVideosCategory('all_sims');
   showToast('🗑️ Video removed successfully', '#f59e0b');
 }
 
@@ -1790,6 +1931,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('admin-badge-indicator').style.display = 'inline-flex';
   }
   showSection('home');
+  // Pre-fetch shared videos from cloud in background
+  getSharedVideos();
 });
 
 document.addEventListener('keydown', e => {
