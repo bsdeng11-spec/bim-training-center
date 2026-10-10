@@ -775,6 +775,7 @@
             <div style="font-size:12px;color:#64748b;">MP4, WEBM, MOV supported</div>
             <input id="new-video-file-input" type="file" accept="video/*" style="display:none;" onchange="handleAdminVideoFilePick(this)" />
           </div>
+          <div style="font-size:12px;color:#64748b;margin-top:6px;">💡 Note: For students on other computers to stream the video, use <strong>"📂 Direct Folder"</strong> with <code>push_videos.bat</code> or <strong>"📺 YouTube Link"</strong>.</div>
         </div>
 
         <div>
@@ -804,11 +805,18 @@
 
       <!-- Live Uploaded Videos Table -->
       <div style="border-top:1.5px solid #f1f5f9;padding-top:24px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
           <h4 style="font-size:16px;font-weight:900;color:#0f172a;margin:0;">
             📂 Manage Published Videos (<span id="admin-video-count">0</span>)
           </h4>
-          <span style="font-size:12px;color:#64748b;">Click Play to test preview</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button onclick="syncLocalVideosToCloud(true)" style="background:#0284c7;color:white;border:none;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+              ☁️ Sync All to Cloud
+            </button>
+            <button onclick="downloadVideosJsonFile()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">
+              📥 Export videos.json
+            </button>
+          </div>
         </div>
         <div id="admin-video-manage-list" style="display:flex;flex-direction:column;gap:10px;">
           <!-- Rendered dynamically -->
@@ -1218,6 +1226,43 @@ function invalidateSharedVideosCache() {
   _sharedVideosCache = null;
 }
 
+async function syncLocalVideosToCloud(isManual = false) {
+  const localList = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
+  const remoteList = await loadSharedVideos();
+  let merged = [...remoteList];
+  let needsSync = false;
+
+  for (const lv of localList) {
+    if (!merged.some(rv => rv.id === lv.id || (rv.title === lv.title && rv.ytId === lv.ytId))) {
+      merged.unshift(lv);
+      needsSync = true;
+    }
+  }
+
+  if (needsSync || isManual) {
+    if (isManual) showToast('⏳ Syncing all videos with BSD Cloud (GitHub)...', '#2563eb');
+    const ok = await saveSharedVideos(merged);
+    invalidateSharedVideosCache();
+    await renderAdminVideosList();
+    renderVideosCategory('all_sims');
+    if (ok) {
+      showToast('☁️ Cloud sync complete! All videos are now visible to everyone.', '#22c55e');
+    } else if (isManual) {
+      showToast('⚠️ Could not complete cloud sync. Check internet connection.', '#ef4444');
+    }
+  }
+}
+
+async function downloadVideosJsonFile() {
+  const vids = await getAllVideos();
+  const blob = new Blob([JSON.stringify(vids, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'videos.json';
+  a.click();
+  showToast('📥 Downloaded videos.json! Save into project folder.', '#22c55e');
+}
+
 function getAdminPassword() {
   return localStorage.getItem(STORAGE_KEY_PASS) || 'admin123';
 }
@@ -1254,6 +1299,8 @@ function checkAdminPassword() {
     input.value = '';
     showSection('upload');
     showToast('🔓 Admin access authenticated successfully!', '#22c55e');
+    // Automatic cloud sync for any previously stored videos
+    syncLocalVideosToCloud();
   } else {
     input.classList.add('error');
     document.getElementById('pass-error-msg').style.display = 'block';
