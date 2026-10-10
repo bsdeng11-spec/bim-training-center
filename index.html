@@ -1183,15 +1183,7 @@ const DEFAULT_COURSES = [
   { id:'bim-iso', cat:'coordination', title:'BIM Management & ISO 19650 Execution', desc:'BEP execution plans, Common Data Environment (CDE) protocols, and multi-team BIM delivery.', color:'linear-gradient(135deg,#1e3a8a,#3b82f6)', icon:'📋', level:'Advanced', price:139, original:279, rating:4.9, reviews:48, duration:'16 hrs', lessons:28, badge:'🆕 NEW' }
 ];
 
-const DEFAULT_VIDEOS = [
-  { id:'rvt1', cat:'revit', title:'Revit Structural Framing – Full Walkthrough', desc:'Live project walkthrough: modeling concrete columns, beams and continuous slabs.', ytId:'dQw4w9WgXcQ', duration:'45:20' },
-  { id:'rvt2', cat:'revit', title:'Revit Rebar Detailing & Schedules Deep Dive', desc:'Placing rebar shape codes, area reinforcement, stirrup hooks, and automatic schedules.', ytId:'dQw4w9WgXcQ', duration:'32:15' },
-  { id:'cad1', cat:'autocad', title:'AutoCAD 2D Structural Plan Drafting', desc:'Setting grids, dimension annotations, section markers and dynamic blocks.', ytId:'dQw4w9WgXcQ', duration:'38:10' },
-  { id:'cad2', cat:'autocad', title:'AutoCAD 3D to Revit Geometry Linking', desc:'Cleaning CAD geometry, zero origin alignment, and Revit convert workflow.', ytId:'dQw4w9WgXcQ', duration:'25:40' },
-  { id:'co1',  cat:'coordination', title:'Navisworks Clash Matrix & Federated Setup', desc:'Combining Architectural, Structural and MEP models for clash tests.', ytId:'dQw4w9WgXcQ', duration:'41:10' },
-  { id:'co2',  cat:'coordination', title:'BIM Coordination Meeting & BCF Reporting', desc:'Running coordination meetings, assigning clash owners and exporting BCF zip.', ytId:'dQw4w9WgXcQ', duration:'35:20' },
-  { id:'nav1', cat:'navisworks', title:'Clash Detective Setup & Tolerance Rules', desc:'Configuring soft and hard clashes with customized clearance tolerances.', ytId:'dQw4w9WgXcQ', duration:'30:45' }
-];
+const DEFAULT_VIDEOS = [];
 
 function getAllCourses() {
   const custom = JSON.parse(localStorage.getItem(STORAGE_KEY_COURSES) || '[]');
@@ -1450,7 +1442,16 @@ function renderVideosCategory(category) {
   }
 
   if (videos.length === 0) {
-    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#64748b;background:white;border-radius:16px;border:1px solid #e2e8f0;">No video lessons in this category yet. Use Admin Upload to publish new demonstrations.</div>`;
+    container.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:60px 24px;background:#ffffff;border-radius:20px;border:1.5px dashed #cbd5e1;">
+        <div style="font-size:48px;margin-bottom:12px;">🎬</div>
+        <h3 style="font-size:18px;font-weight:900;color:#0f172a;margin:0 0 6px;">No Videos in this Category Yet</h3>
+        <p style="color:#64748b;font-size:14px;max-width:440px;margin:0 auto 20px;">Use the Admin Upload panel to publish your customized BIM lessons, walkthroughs, or YouTube recordings.</p>
+        <button onclick="showSection('upload')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,0.3);">
+          🔒 Upload Video via Admin
+        </button>
+      </div>
+    `;
     return;
   }
 
