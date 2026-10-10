@@ -1,5 +1,68 @@
 [
   {
+    "id": "vid_1791632785923",
+    "cat": "revit",
+    "title": "EP 07 HOW  TO  MODEL BASMENT FLOOR",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791632785923",
+    "duration": "19:42",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791632777794",
+    "cat": "revit",
+    "title": "EP 06 HOW  TO  EDIT FLOOR PLAN SETTING WITH COORDINATION VIEW YELOW AND CYNE COLOR FOR EACH  LEVEL",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791632777794",
+    "duration": "11:31",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791632769915",
+    "cat": "revit",
+    "title": "EP 05 HOW  TO CREATE ALL FLOOR PLAN VIEWS + STRUCTURAL PLAN VIEWS",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791632769915",
+    "duration": "8:29",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791632761193",
+    "cat": "revit",
+    "title": "EP 04 HOW  TO RENAME  LEVEL  ACCORDING ISO STANDARD",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791632761193",
+    "duration": "6:38",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791632134607",
+    "cat": "revit",
+    "title": "EP 03 HOW  TO CREAT LEVEL  FOR  MODELING",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791632134607",
+    "duration": "8:18",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791623105270",
+    "cat": "revit",
+    "title": "EP 02 HOW  TO LINK REVIT FROM CLOUD AR MODELING",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791623105270",
+    "duration": "10:46",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791622842924",
+    "cat": "revit",
+    "title": "EP 01 INTRODUCTION TO BIM MODELING",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791622842924",
+    "duration": "12:01",
+    "type": "local"
+  },
+  {
     "id": "vid_rebar_01",
     "cat": "revit",
     "title": "Revit Structure: X Rebar Modeling Walkthrough",
