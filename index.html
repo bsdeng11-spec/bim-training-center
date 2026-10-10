@@ -1318,34 +1318,7 @@ function filterCoursesCatalog(cat) {
   renderCoursesCatalog(cat);
 }
 
-function renderVideosCategory(category) {
-  const container = document.getElementById('video-cards-grid');
-  if (!container) return;
-  let videos = getAllVideos();
-  if (category !== 'all_sims') {
-    videos = videos.filter(v => v.cat === category);
-  }
-
-let currentVideoUploadMode = 'yt';
-let selectedAdminVideoFileBlob = null;
-
-function setVideoUploadMode(mode) {
-  currentVideoUploadMode = mode;
-  const btnYt = document.getElementById('vmode-btn-yt');
-  const btnFile = document.getElementById('vmode-btn-file');
-  const conYt = document.getElementById('vinput-container-yt');
-  const conFile = document.getElementById('vinput-container-file');
-
-  if (mode === 'yt') {
-    btnYt.style.background = '#2563eb';
-    btnYt.style.color = '#ffffff';
-    btnFile.style.background = 'transparent';
-    btnFile.style.color = '#475569';
-    conYt.style.display = 'block';
-    conFile.style.display = 'none';
-  } else {
-    btnFile.style.background = '#2563eb';
-let currentVideoUploadMode = 'yt';
+let currentVideoUploadMode = 'folder';
 let selectedAdminVideoFile = null;
 
 /* ── INDEXEDDB PERSISTENT VIDEO ENGINE ── */
