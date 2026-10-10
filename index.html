@@ -732,15 +732,15 @@
       <p style="color:#64748b;font-size:14px;margin:0 0 24px;">Publish Revit modeling walkthroughs, AutoCAD simulations, or BIM clash reports via YouTube Link or Direct Video File.</p>
 
       <!-- Mode Selector -->
-      <div style="display:flex;gap:8px;margin-bottom:20px;background:#f1f5f9;padding:6px;border-radius:12px;max-width:580px;flex-wrap:wrap;">
-        <button id="vmode-btn-folder" onclick="setVideoUploadMode('folder')" style="flex:1;background:#2563eb;color:white;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
-          📂 Direct Folder (videos/)
-        </button>
-        <button id="vmode-btn-file" onclick="setVideoUploadMode('file')" style="flex:1;background:transparent;color:#475569;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
-          💻 Choose Local File
+      <div style="display:flex;gap:8px;margin-bottom:20px;background:#f1f5f9;padding:6px;border-radius:12px;max-width:620px;flex-wrap:wrap;">
+        <button id="vmode-btn-file" onclick="setVideoUploadMode('file')" style="flex:1;background:#2563eb;color:white;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
+          💻 Upload Video File (&lt;100MB)
         </button>
         <button id="vmode-btn-yt" onclick="setVideoUploadMode('yt')" style="flex:1;background:transparent;color:#475569;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
-          📺 YouTube Link
+          📺 YouTube / Drive Link
+        </button>
+        <button id="vmode-btn-folder" onclick="setVideoUploadMode('folder')" style="flex:1;background:transparent;color:#475569;border:none;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
+          📂 Direct Folder (videos/)
         </button>
       </div>
 
@@ -750,32 +750,33 @@
           <input id="new-video-title" type="text" placeholder="e.g. Revit Concrete Slab & Rebar Detailing" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
         </div>
 
-        <!-- Mode 1: Direct Folder Path Input (default) -->
-        <div id="vinput-container-folder" style="grid-column:1/-1;">
+        <!-- Mode 1: Direct File Upload Container (Default) -->
+        <div id="vinput-container-file" style="display:block;grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Select Video File (.mp4, .webm, .mov — max 100MB) *</label>
+          <div class="drop-zone" onclick="document.getElementById('new-video-file-input').click()" style="border:2px dashed #cbd5e1;border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:#f8fafc;">
+            <div style="font-size:36px;margin-bottom:8px;">🎬</div>
+            <div id="vfile-selected-name" style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;">Click to choose video from your computer</div>
+            <div style="font-size:12px;color:#64748b;">MP4, WEBM, MOV (Files under 100MB)</div>
+            <input id="new-video-file-input" type="file" accept="video/*" style="display:none;" onchange="handleAdminVideoFilePick(this)" />
+          </div>
+          <div style="font-size:12px;color:#2563eb;margin-top:6px;font-weight:600;">⚡ Direct Cloud Push: When you click Publish, this video is pushed directly to GitHub so ALL users worldwide can stream it immediately!</div>
+        </div>
+
+        <!-- Mode 2: YouTube / Google Drive URL Container -->
+        <div id="vinput-container-yt" style="display:none;grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">YouTube URL, Google Drive Share Link, or Video Link *</label>
+          <input id="new-video-url" type="text" placeholder="https://www.youtube.com/watch?v=... or Google Drive link" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+          <div style="font-size:12px;color:#64748b;margin-top:5px;">💡 Recommended for videos over 100MB (upload to YouTube as Unlisted or to Google Drive).</div>
+        </div>
+
+        <!-- Mode 3: Direct Folder Path Input -->
+        <div id="vinput-container-folder" style="display:none;grid-column:1/-1;">
           <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Video Filename in <code style="color:#2563eb;background:#e0f2fe;padding:2px 6px;border-radius:4px;">videos/</code> folder *</label>
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="font-weight:700;color:#64748b;font-size:14px;background:#f1f5f9;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;">videos/</span>
             <input id="new-video-folder-file" type="text" placeholder="my_lesson.mp4" style="flex:1;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
           </div>
           <div style="font-size:12px;color:#64748b;margin-top:5px;">💡 Just copy your video file into the <strong>"videos"</strong> folder inside your project.</div>
-        </div>
-
-        <!-- Mode 2: YouTube URL Input Container -->
-        <div id="vinput-container-yt" style="display:none;grid-column:1/-1;">
-          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">YouTube URL or Video ID *</label>
-          <input id="new-video-url" type="text" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
-        </div>
-
-        <!-- Mode 3: Direct File Upload Container -->
-        <div id="vinput-container-file" style="display:none;grid-column:1/-1;">
-          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Select Video File (.mp4, .webm, .mov) *</label>
-          <div class="drop-zone" onclick="document.getElementById('new-video-file-input').click()" style="border:2px dashed #cbd5e1;border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;background:#f8fafc;">
-            <div style="font-size:36px;margin-bottom:8px;">🎬</div>
-            <div id="vfile-selected-name" style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;">Click to choose video from your computer</div>
-            <div style="font-size:12px;color:#64748b;">MP4, WEBM, MOV supported</div>
-            <input id="new-video-file-input" type="file" accept="video/*" style="display:none;" onchange="handleAdminVideoFilePick(this)" />
-          </div>
-          <div style="font-size:12px;color:#64748b;margin-top:6px;">💡 Note: For students on other computers to stream the video, use <strong>"📂 Direct Folder"</strong> with <code>push_videos.bat</code> or <strong>"📺 YouTube Link"</strong>.</div>
         </div>
 
         <div>
@@ -798,7 +799,7 @@
       </div>
 
       <div style="display:flex;justify-content:flex-end;margin-bottom:28px;">
-        <button onclick="adminPublishVideo()" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(37,99,235,0.4);">
+        <button id="admin-publish-video-btn" onclick="adminPublishVideo()" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(37,99,235,0.4);transition:all 0.2s;">
           🚀 Publish Video to Library
         </button>
       </div>
@@ -1514,7 +1515,7 @@ function filterCoursesCatalog(cat) {
   renderCoursesCatalog(cat);
 }
 
-let currentVideoUploadMode = 'folder';
+let currentVideoUploadMode = 'file';
 let selectedAdminVideoFile = null;
 
 /* ── INDEXEDDB PERSISTENT VIDEO ENGINE ── */
@@ -1764,6 +1765,52 @@ async function launchVideoPlayer(videoRef, encodedTitle, encodedDesc, type, vide
   }
 }
 
+async function uploadVideoFileToGitHub(file) {
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      const base64Content = result.split(',')[1];
+      resolve(base64Content);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
+  const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const filePath = `videos/${cleanName}`;
+  const apiBase = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${filePath}`;
+  const headers = {
+    'Authorization': `token ${GH_TOKEN}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+
+  let sha = null;
+  try {
+    const getRes = await fetch(`${apiBase}?ref=${GH_BRANCH}&_=${Date.now()}`, { headers });
+    if (getRes.ok) {
+      const d = await getRes.json();
+      sha = d.sha;
+    }
+  } catch (_) {}
+
+  const body = {
+    message: `📹 Upload training video: ${cleanName}`,
+    content: base64,
+    branch: GH_BRANCH,
+    ...(sha ? { sha } : {})
+  };
+
+  const putRes = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!putRes.ok) {
+    const err = await putRes.json();
+    throw new Error(err.message || 'GitHub file upload failed');
+  }
+
+  return filePath;
+}
+
 async function adminPublishVideo() {
   const title = document.getElementById('new-video-title').value.trim();
   const cat = document.getElementById('new-video-cat').value;
@@ -1775,77 +1822,101 @@ async function adminPublishVideo() {
     return;
   }
 
-  const newId = 'vid_' + Date.now();
-  let ytId = '';
-  let videoType = 'local';
-
-  if (selectedAdminVideoFile) {
-    try {
-      await saveVideoFileToIDB(newId, selectedAdminVideoFile);
-      ytId = 'local_' + newId;
-      videoType = 'local';
-    } catch (err) {
-      console.error('Save IDB error', err);
-      showToast('⚠️ Could not save file to browser storage', '#ef4444');
-      return;
-    }
-  } else if (currentVideoUploadMode === 'folder') {
-    const filename = document.getElementById('new-video-folder-file').value.trim();
-    if (!filename) {
-      showToast('⚠️ Please enter the video filename (e.g. lesson1.mp4)', '#f59e0b');
-      return;
-    }
-    ytId = filename.startsWith('videos/') ? filename : ('videos/' + filename);
-    videoType = 'local';
-  } else if (currentVideoUploadMode === 'file') {
-    showToast('⚠️ Please click "Choose Video" and select an MP4 file from your computer', '#f59e0b');
-    return;
-  } else {
-    const url = document.getElementById('new-video-url').value.trim();
-    if (!url) {
-      showToast('⚠️ Please enter a YouTube URL, Google Drive link, or video link', '#f59e0b');
-      return;
-    }
-    if (url.includes('drive.google.com')) {
-      ytId = url;
-      videoType = 'gdrive';
-    } else if (url.startsWith('http') && (url.includes('.mp4') || url.includes('.webm'))) {
-      ytId = url;
-      videoType = 'local';
-    } else {
-      ytId = extractYoutubeId(url);
-      videoType = 'yt';
-    }
+  const publishBtn = document.getElementById('admin-publish-video-btn');
+  const originalBtnText = publishBtn ? publishBtn.innerHTML : '';
+  if (publishBtn) {
+    publishBtn.disabled = true;
+    publishBtn.style.opacity = '0.7';
+    publishBtn.innerHTML = '⏳ Uploading to Cloud...';
   }
 
-  const newVideo = { id: newId, cat, title, desc, ytId, duration, type: videoType };
+  try {
+    const newId = 'vid_' + Date.now();
+    let ytId = '';
+    let videoType = 'local';
 
-  showToast('⏳ Syncing video with BSD Cloud (GitHub)...', '#2563eb');
-  const currentVideos = await getAllVideos();
-  const updatedVideos = [newVideo, ...currentVideos.filter(v => v.id !== newId)];
-  const cloudSynced = await saveSharedVideos(updatedVideos);
-  invalidateSharedVideosCache();
+    if (currentVideoUploadMode === 'file' || selectedAdminVideoFile) {
+      if (!selectedAdminVideoFile) {
+        showToast('⚠️ Please click and choose a video file first', '#f59e0b');
+        if (publishBtn) { publishBtn.disabled = false; publishBtn.style.opacity = '1'; publishBtn.innerHTML = originalBtnText; }
+        return;
+      }
+      if (selectedAdminVideoFile.size > 100 * 1024 * 1024) {
+        alert('⚠️ File size is ' + (selectedAdminVideoFile.size / (1024*1024)).toFixed(1) + 'MB.\n\nGitHub has a 100MB limit per file. For files over 100MB, please upload to YouTube (Unlisted) or Google Drive, then use the YouTube/Drive Link mode.');
+        if (publishBtn) { publishBtn.disabled = false; publishBtn.style.opacity = '1'; publishBtn.innerHTML = originalBtnText; }
+        return;
+      }
 
-  // Reset form inputs
-  document.getElementById('new-video-title').value = '';
-  const folderInput = document.getElementById('new-video-folder-file');
-  if (folderInput) folderInput.value = '';
-  const urlInput = document.getElementById('new-video-url');
-  if (urlInput) urlInput.value = '';
-  document.getElementById('new-video-duration').value = '';
-  document.getElementById('new-video-desc').value = '';
-  selectedAdminVideoFile = null;
-  const fileInputEl = document.getElementById('new-video-file-input');
-  if (fileInputEl) fileInputEl.value = '';
-  const fileLabel = document.getElementById('vfile-selected-name');
-  if (fileLabel) fileLabel.textContent = 'Click to choose video from your computer';
+      showToast('☁️ Uploading MP4 file to GitHub Cloud (please wait)...', '#2563eb');
+      const uploadedPath = await uploadVideoFileToGitHub(selectedAdminVideoFile);
+      ytId = uploadedPath;
+      videoType = 'local';
 
-  await renderAdminVideosList();
-  await renderVideosCategory(cat);
-  if (cloudSynced) {
-    showToast('✅ Video published & synced worldwide to all users!', '#22c55e');
-  } else {
-    showToast('✅ Video published locally (check connection for cloud sync)', '#f59e0b');
+    } else if (currentVideoUploadMode === 'folder') {
+      const filename = document.getElementById('new-video-folder-file').value.trim();
+      if (!filename) {
+        showToast('⚠️ Please enter the video filename (e.g. lesson1.mp4)', '#f59e0b');
+        if (publishBtn) { publishBtn.disabled = false; publishBtn.style.opacity = '1'; publishBtn.innerHTML = originalBtnText; }
+        return;
+      }
+      ytId = filename.startsWith('videos/') ? filename : ('videos/' + filename);
+      videoType = 'local';
+
+    } else {
+      const url = document.getElementById('new-video-url').value.trim();
+      if (!url) {
+        showToast('⚠️ Please enter a YouTube URL, Google Drive link, or video link', '#f59e0b');
+        if (publishBtn) { publishBtn.disabled = false; publishBtn.style.opacity = '1'; publishBtn.innerHTML = originalBtnText; }
+        return;
+      }
+      if (url.includes('drive.google.com')) {
+        ytId = url;
+        videoType = 'gdrive';
+      } else if (url.startsWith('http') && (url.includes('.mp4') || url.includes('.webm'))) {
+        ytId = url;
+        videoType = 'local';
+      } else {
+        ytId = extractYoutubeId(url);
+        videoType = 'yt';
+      }
+    }
+
+    const newVideo = { id: newId, cat, title, desc, ytId, duration, type: videoType };
+
+    showToast('⏳ Updating cloud video database (videos.json)...', '#2563eb');
+    const currentVideos = await getAllVideos();
+    const updatedVideos = [newVideo, ...currentVideos.filter(v => v.id !== newId)];
+    const cloudSynced = await saveSharedVideos(updatedVideos);
+    invalidateSharedVideosCache();
+
+    // Reset form inputs
+    document.getElementById('new-video-title').value = '';
+    const folderInput = document.getElementById('new-video-folder-file');
+    if (folderInput) folderInput.value = '';
+    const urlInput = document.getElementById('new-video-url');
+    if (urlInput) urlInput.value = '';
+    document.getElementById('new-video-duration').value = '';
+    document.getElementById('new-video-desc').value = '';
+    selectedAdminVideoFile = null;
+    const fileInputEl = document.getElementById('new-video-file-input');
+    if (fileInputEl) fileInputEl.value = '';
+    const fileLabel = document.getElementById('vfile-selected-name');
+    if (fileLabel) fileLabel.textContent = 'Click to choose video from your computer';
+
+    await renderAdminVideosList();
+    await renderVideosCategory(cat);
+
+    showToast('🎉 Video published & uploaded to GitHub! Visible to all users worldwide.', '#22c55e');
+
+  } catch (err) {
+    console.error('Publish error:', err);
+    showToast('❌ Error publishing: ' + (err.message || 'Check connection'), '#ef4444');
+  } finally {
+    if (publishBtn) {
+      publishBtn.disabled = false;
+      publishBtn.style.opacity = '1';
+      publishBtn.innerHTML = originalBtnText;
+    }
   }
 }
 
