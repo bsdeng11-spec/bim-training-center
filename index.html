@@ -3,1292 +3,1528 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BSD BIM Training Center</title>
+  <title>BSD BIM Training Center | Professional BIM Education</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
-    /* Smooth scrolling */
     html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    /* ── HIGH-TECH HERO BG WITH FANCY GRAPHICS ── */
+    .hero-bg {
+      position: relative;
+      min-height: 100vh;
+      background: #030712;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
 
-    /* Nav active underline */
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: '';
+    /* Animated 3D Isometric BIM Blueprint Grid */
+    .hero-grid {
+      position: absolute; inset: -50%;
+      background-image:
+        linear-gradient(rgba(14, 165, 233, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 165, 233, 0.15) 1px, transparent 1px),
+        linear-gradient(rgba(59, 130, 246, 0.05) 5px, transparent 5px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.05) 5px, transparent 5px);
+      background-size: 50px 50px, 50px 50px, 250px 250px, 250px 250px;
+      transform: perspective(600px) rotateX(45deg) translateY(-100px);
+      animation: gridDrift 25s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes gridDrift {
+      0%   { transform: perspective(600px) rotateX(45deg) translateY(0px); }
+      100% { transform: perspective(600px) rotateX(45deg) translateY(250px); }
+    }
+
+    /* Radial Neon Glows */
+    .hero-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(37,99,235,0.3) 0%, transparent 70%),
+                  radial-gradient(circle 400px at 85% 65%, rgba(6,182,212,0.22) 0%, transparent 60%),
+                  radial-gradient(circle 350px at 15% 75%, rgba(147,51,234,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Holographic scanning laser line */
+    .scan-line {
+      position: absolute; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, rgba(14,165,233,0.3) 20%, rgba(56,189,248,0.9) 50%, rgba(14,165,233,0.3) 80%, transparent 100%);
+      box-shadow: 0 0 20px rgba(56,189,248,0.8), 0 0 40px rgba(37,99,235,0.6);
+      animation: scanSweep 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes scanSweep {
+      0%   { top: -2%; opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { top: 102%; opacity: 0; }
+    }
+
+    /* Ambient Floating Orbs */
+    .orb {
       position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 2px;
-      background: var(--primary);
-      transition: width 0.3s;
+      border-radius: 50%;
+      filter: blur(70px);
+      animation: orbMove ease-in-out infinite alternate;
+      pointer-events: none;
     }
-    .nav-link.active::after, .nav-link:hover::after { width: 100%; }
-
-    /* Hero gradient */
-    .hero-gradient {
-      background: linear-gradient(135deg, #1a3a5c 0%, #0d6efd 50%, #00b4d8 100%);
+    @keyframes orbMove {
+      0%   { transform: translateY(0px) translateX(0px) scale(1); }
+      100% { transform: translateY(-60px) translateX(40px) scale(1.15); }
     }
 
-    /* Card hover */
+    /* Rotating 3D BIM Wireframe Models */
+    .wireframe-cube {
+      position: absolute; pointer-events: none;
+      filter: drop-shadow(0 0 15px rgba(56,189,248,0.4));
+    }
+    .wireframe-cube svg {
+      animation: spin3D 20s linear infinite;
+      transform-origin: center;
+    }
+    @keyframes spin3D {
+      0%   { transform: rotate(0deg) rotateX(0deg); }
+      100% { transform: rotate(360deg) rotateX(360deg); }
+    }
+
+    /* Floating Particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(56,189,248,0.7);
+      box-shadow: 0 0 8px rgba(56,189,248,0.8);
+      animation: particleRise linear infinite;
+      pointer-events: none;
+    }
+    @keyframes particleRise {
+      0%   { transform: translateY(0) scale(1); opacity: 0.9; }
+      100% { transform: translateY(-100vh) scale(0.2); opacity: 0; }
+    }
+
+    /* Glowing BIM Tags */
+    .bim-chip {
+      position: absolute;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,0.4);
+      background: rgba(3,7,18,0.75);
+      padding: 5px 12px; border-radius: 6px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 15px rgba(14,165,233,0.25);
+      pointer-events: none;
+      animation: floatTag 5s ease-in-out infinite alternate;
+    }
+    @keyframes floatTag {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-14px); }
+    }
+
+    /* Glowing Text Header */
+    .glow-header {
+      text-shadow: 0 0 35px rgba(37,99,235,0.7), 0 0 70px rgba(6,182,212,0.4);
+    }
+
+    /* ── CARDS & HOVER EFFECTS ── */
     .course-card {
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
     .course-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+      transform: translateY(-6px);
+      box-shadow: 0 22px 50px rgba(14,165,233,0.18), 0 4px 12px rgba(0,0,0,0.08);
+      border-color: rgba(59,130,246,0.5);
     }
 
-    /* Video thumbnail overlay */
     .video-thumb {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-      cursor: pointer;
+      position: relative; overflow: hidden; border-radius: 12px; cursor: pointer;
     }
     .video-thumb .play-btn {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.35);
-      transition: background 0.2s;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(3,7,18,0.4);
+      transition: all 0.25s;
     }
-    .video-thumb:hover .play-btn { background: rgba(0,0,0,0.5); }
+    .video-thumb:hover .play-btn {
+      background: rgba(3,7,18,0.65);
+      backdrop-filter: blur(2px);
+    }
+    .video-thumb:hover .play-icon {
+      transform: scale(1.15);
+      box-shadow: 0 0 25px rgba(56,189,248,0.8);
+    }
 
-    /* Badge pill */
+    /* ── BADGES & LABELS ── */
     .badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
     }
-
-    /* Star rating */
     .star { color: #f59e0b; }
 
-    /* Progress bar */
-    .progress-bar {
-      height: 6px;
-      border-radius: 3px;
-      background: #e2e8f0;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 3px;
-      background: linear-gradient(90deg, #0d6efd, #00b4d8);
-    }
-
-    /* Modal overlay */
+    /* ── MODAL OVERLAY ── */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,0.65);
-      display: flex; align-items: center; justify-content: center;
-      padding: 16px;
+      background: rgba(3,7,18,0.82);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
     }
     .modal-box {
-      background: var(--card, #fff);
-      border-radius: 16px;
-      padding: 32px;
-      max-width: 520px;
+      background: #ffffff;
+      border-radius: 20px; padding: 32px;
+      max-width: 540px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(226,232,240,0.8);
+    }
+
+    /* ── ADMIN SECURITY LOCK MODAL ── */
+    .admin-lock-screen {
+      position: fixed; inset: 0; z-index: 1200;
+      background: radial-gradient(circle at center, #0a192f 0%, #030712 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+    }
+    .lock-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 24px; padding: 44px 36px;
+      max-width: 440px; width: 100%;
+      text-align: center;
+      box-shadow: 0 0 70px rgba(14,165,233,0.25), inset 0 0 30px rgba(3,7,18,0.8);
+      backdrop-filter: blur(16px);
+      position: relative;
+    }
+    .lock-ring {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(37,99,235,0.25), rgba(6,182,212,0.25));
+      border: 2px solid rgba(56,189,248,0.6);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 35px rgba(56,189,248,0.4);
+      animation: pulseLock 2.5s infinite ease-in-out;
+    }
+    @keyframes pulseLock {
+      0%, 100% { box-shadow: 0 0 25px rgba(56,189,248,0.3); transform: scale(1); }
+      50%      { box-shadow: 0 0 50px rgba(56,189,248,0.7); transform: scale(1.04); }
+    }
+    .lock-input {
       width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    /* Notification toast */
-    .toast {
-      position: fixed;
-      bottom: 24px; right: 24px;
-      z-index: 2000;
-      padding: 14px 22px;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      animation: slideUp 0.3s ease;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to   { transform: translateY(0);   opacity: 1; }
-    }
-
-    /* Sidebar active */
-    .sidebar-item.active {
-      background: var(--primary, #0d6efd);
-      color: #fff;
-      border-radius: 8px;
-    }
-
-    /* YouTube embed */
-    .yt-embed { aspect-ratio: 16/9; width: 100%; border-radius: 10px; overflow: hidden; }
-    .yt-embed iframe { width: 100%; height: 100%; border: none; }
-
-    /* Section headers */
-    .section-tag {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #0d6efd;
-    }
-
-    /* Tabs */
-    .tab-btn { transition: all 0.2s; }
-    .tab-btn.active {
-      border-bottom: 3px solid #0d6efd;
-      color: #0d6efd;
-      font-weight: 700;
-    }
-
-    /* Upload drop zone */
-    .drop-zone {
-      border: 2px dashed var(--border, #cbd5e1);
+      padding: 15px 18px;
+      background: rgba(3,7,18,0.7);
+      border: 1.5px solid rgba(56,189,248,0.4);
       border-radius: 12px;
-      transition: border-color 0.2s, background 0.2s;
-      cursor: pointer;
+      color: #ffffff; font-size: 16px; letter-spacing: 3px;
+      text-align: center; outline: none; box-sizing: border-box;
+      transition: all 0.2s; margin-bottom: 14px;
     }
-    .drop-zone.drag-over {
-      border-color: #0d6efd;
-      background: rgba(13, 110, 253, 0.06);
+    .lock-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 25px rgba(56,189,248,0.4);
+      background: rgba(3,7,18,0.9);
+    }
+    .lock-input.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 25px rgba(239,68,68,0.4);
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%,75% { transform: translateX(-8px); }
+      50%     { transform: translateX(8px); }
+    }
+    .lock-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: white; border: none; padding: 15px;
+      border-radius: 12px; font-size: 15px; font-weight: 800;
+      cursor: pointer; box-shadow: 0 8px 25px rgba(37,99,235,0.45);
+      transition: all 0.2s;
+    }
+    .lock-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(6,182,212,0.6);
     }
 
-    /* Pricing card */
-    .pricing-card { transition: transform 0.2s, box-shadow 0.2s; }
-    .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.16); }
-    .pricing-popular {
-      border: 2px solid #0d6efd;
+    /* ── TOAST NOTIFICATIONS ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 3000;
+      padding: 14px 24px; border-radius: 12px;
+      color: #fff; font-weight: 700; font-size: 14px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+      animation: slideIn 0.3s ease-out;
+      display: flex; align-items: center; gap: 10px;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ── PRICING CARDS ── */
+    .pricing-card {
+      transition: all 0.25s ease;
+      background: white; border: 1.5px solid #e2e8f0; border-radius: 20px;
+    }
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+    }
+    .pricing-featured {
+      border: 2px solid #2563eb;
       position: relative;
     }
-    .pricing-popular::before {
+    .pricing-featured::before {
       content: 'MOST POPULAR';
-      position: absolute;
-      top: -14px; left: 50%; transform: translateX(-50%);
-      background: #0d6efd;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      padding: 3px 16px;
-      border-radius: 999px;
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(90deg,#2563eb,#06b6d4);
+      color: #fff; font-size: 11px; font-weight: 900;
+      letter-spacing: 0.12em; padding: 4px 16px; border-radius: 999px;
+      box-shadow: 0 4px 15px rgba(37,99,235,0.4);
     }
 
-    /* Responsive sidebar */
-    @media (max-width: 768px) {
-      #sidebar { display: none; }
-      #main-content { margin-left: 0 !important; }
+    /* Nav active styling */
+    .nav-btn {
+      position: relative; transition: color 0.2s;
+    }
+    .nav-btn::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2.5px;
+      background: #38bdf8; border-radius: 2px;
+      transition: width 0.25s;
+    }
+    .nav-btn.active::after, .nav-btn:hover::after { width: 100%; }
+
+    /* YouTube Embed Ratio */
+    .yt-frame {
+      aspect-ratio: 16/9; width: 100%; border-radius: 12px; overflow: hidden;
+    }
+    .yt-frame iframe { width: 100%; height: 100%; border: none; }
+
+    /* Admin Auth Active Badge */
+    .admin-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4);
+      color: #4ade80; padding: 5px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      box-shadow: 0 0 15px rgba(34,197,94,0.25);
+    }
+
+    /* Fancy Glowing Border Divider */
+    .neon-divider {
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent 0%, rgba(56,189,248,0.6) 50%, transparent 100%);
+      margin: 0;
     }
   </style>
 </head>
-<body style="background: var(--background, #f8fafc); color: var(--foreground, #1e293b); font-family: system-ui, sans-serif; margin: 0; padding: 0;">
+<body style="background:#f8fafc;color:#0f172a;font-family:system-ui,-apple-system,sans-serif;margin:0;padding:0;">
 
-<!-- ═══════════════════════════════════════
-     TOP NAVIGATION BAR
-═══════════════════════════════════════ -->
-<nav style="background: #0d1b2e; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.3);">
-  <div style="max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 64px;">
-    <!-- Logo -->
-    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="showSection('home')">
-      <div style="width: 38px; height: 38px; background: linear-gradient(135deg, #0d6efd, #00b4d8); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <div>
-        <div style="color: white; font-weight: 800; font-size: 17px; line-height: 1.1;">BSD BIM Training</div>
-        <div style="color: #64b5f6; font-size: 11px; letter-spacing: 0.06em; font-weight: 600;">CENTER</div>
-      </div>
+<!-- ══════════════════════════════════════════
+     🔒 ADMIN PASSWORD LOCK OVERLAY
+══════════════════════════════════════════ -->
+<div id="admin-lock-screen" class="admin-lock-screen" style="display:none;">
+  <div class="lock-card">
+    <div class="lock-ring">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
     </div>
 
-    <!-- Nav Links -->
-    <div style="display: flex; gap: 24px; align-items: center;">
-      <button onclick="showSection('home')" class="nav-link" style="background: none; border: none; color: #cbd5e1; font-size: 14px; font-weight: 500; cursor: pointer; padding: 4px 0;" id="nav-home">Home</button>
-      <button onclick="showSection('courses')" class="nav-link" style="background: none; border: none; color: #cbd5e1; font-size: 14px; font-weight: 500; cursor: pointer; padding: 4px 0;" id="nav-courses">Courses</button>
-      <button onclick="showSection('videos')" class="nav-link" style="background: none; border: none; color: #cbd5e1; font-size: 14px; font-weight: 500; cursor: pointer; padding: 4px 0;" id="nav-videos">Video Library</button>
-      <button onclick="showSection('pricing')" class="nav-link" style="background: none; border: none; color: #cbd5e1; font-size: 14px; font-weight: 500; cursor: pointer; padding: 4px 0;" id="nav-pricing">Pricing</button>
-      <button onclick="showSection('upload')" class="nav-link" style="background: none; border: none; color: #cbd5e1; font-size: 14px; font-weight: 500; cursor: pointer; padding: 4px 0;" id="nav-upload">Upload</button>
+    <div style="color:#38bdf8;font-size:11px;font-weight:800;letter-spacing:0.18em;margin-bottom:8px;">
+      🔒 SECURITY AUTHENTICATION
+    </div>
+    <h2 style="color:#ffffff;font-size:24px;font-weight:900;margin:0 0 8px;letter-spacing:-0.02em;">
+      Admin Content Lock
+    </h2>
+    <p style="color:#94a3b8;font-size:14px;line-height:1.5;margin:0 0 24px;">
+      Uploading training courses, videos, Revit models & YouTube simulations is restricted to authorized administrators only.
+    </p>
+
+    <input id="admin-pass-input" class="lock-input" type="password" placeholder="••••••••••••"
+      onkeydown="if(event.key==='Enter')checkAdminPassword()"
+      oninput="this.classList.remove('error');document.getElementById('pass-error-msg').style.display='none'" />
+
+    <div id="pass-error-msg" style="display:none;color:#f87171;font-size:13px;font-weight:600;margin-bottom:14px;">
+      ❌ Incorrect Password. Please enter the valid Admin code.
     </div>
 
-    <!-- CTA Buttons -->
-    <div style="display: flex; gap: 10px; align-items: center;">
-      <button onclick="openModal('login')" style="background: none; border: 1px solid #475569; color: #cbd5e1; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.borderColor='#0d6efd';this.style.color='#60a5fa'" onmouseout="this.style.borderColor='#475569';this.style.color='#cbd5e1'">Log In</button>
-      <button onclick="openModal('register')" style="background: linear-gradient(135deg, #0d6efd, #0099cc); border: none; color: white; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(13,110,253,0.4);">Get Started Free</button>
-    </div>
-  </div>
-</nav>
+    <button class="lock-btn" onclick="checkAdminPassword()">
+      🔓 Unlock & Access Admin Panel
+    </button>
 
+    <button onclick="closeAdminLock()" style="background:none;border:none;color:#64748b;font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;width:100%;transition:color 0.2s;" onmouseover="this.style.color='#94a3b8'" onmouseout="this.style.color='#64748b'">
+      ← Cancel & Return to Website
+    </button>
 
-<!-- ═══════════════════════════════════════
-     SECTIONS CONTAINER
-═══════════════════════════════════════ -->
-<div id="app-root">
-
-<!-- ───────────────────────────────────────
-     HOME SECTION
-─────────────────────────────────────── -->
-<section id="section-home">
-
-  <!-- HERO -->
-  <div class="hero-gradient" style="padding: 80px 24px; text-align: center; position: relative; overflow: hidden;">
-    <!-- BG Decoration -->
-    <div style="position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;"></div>
-    <div style="position:absolute;bottom:-80px;left:-40px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
-
-    <div style="max-width: 820px; margin: 0 auto; position: relative; z-index: 1;">
-      <span class="badge" style="background: rgba(255,255,255,0.15); color: white; margin-bottom: 16px; display: inline-block;">
-        🏗️ Professional BIM Education Platform
-      </span>
-      <h1 style="color: white; font-size: clamp(32px, 5vw, 56px); font-weight: 900; line-height: 1.15; margin: 12px 0 20px;">
-        Master BIM Coordination &<br/>Advanced Workflows
-      </h1>
-      <p style="color: rgba(255,255,255,0.82); font-size: 18px; line-height: 1.65; margin-bottom: 36px;">
-        Learn Revit, AutoCAD, Navisworks & BIM coordination from real professionals.
-        Watch modeling demonstrations, download practice files, and earn certifications.
-      </p>
-      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-        <button onclick="showSection('courses')" style="background: white; color: #0d1b2e; border: none; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.18); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
-          🎓 Browse Courses
-        </button>
-        <button onclick="showSection('videos')" style="background: rgba(255,255,255,0.12); color: white; border: 2px solid rgba(255,255,255,0.4); padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; backdrop-filter: blur(4px);">
-          ▶️ Watch Free Demos
-        </button>
+    <div style="margin-top:22px;padding:12px 14px;background:rgba(37,99,235,0.12);border:1px solid rgba(56,189,248,0.25);border-radius:10px;text-align:center;">
+      <div style="color:#38bdf8;font-size:11px;font-weight:800;letter-spacing:0.08em;margin-bottom:3px;">
+        🔑 DEFAULT ADMIN PASSWORD
       </div>
-      <!-- Stats Row -->
-      <div style="display: flex; gap: 40px; justify-content: center; margin-top: 52px; flex-wrap: wrap;">
-        <div style="text-align: center; color: white;">
-          <div style="font-size: 32px; font-weight: 900;">12+</div>
-          <div style="font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 600;">Professional Courses</div>
-        </div>
-        <div style="width: 1px; background: rgba(255,255,255,0.2);"></div>
-        <div style="text-align: center; color: white;">
-          <div style="font-size: 32px; font-weight: 900;">80+</div>
-          <div style="font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 600;">Video Lessons</div>
-        </div>
-        <div style="width: 1px; background: rgba(255,255,255,0.2);"></div>
-        <div style="text-align: center; color: white;">
-          <div style="font-size: 32px; font-weight: 900;">500+</div>
-          <div style="font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 600;">Students Trained</div>
-        </div>
-        <div style="width: 1px; background: rgba(255,255,255,0.2);"></div>
-        <div style="text-align: center; color: white;">
-          <div style="font-size: 32px; font-weight: 900;">4.9 ⭐</div>
-          <div style="font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 600;">Average Rating</div>
-        </div>
+      <div style="color:#cbd5e1;font-size:13px;font-family:monospace;font-weight:700;">
+        BSD@Admin2026
       </div>
     </div>
-  </div>
-
-  <!-- FEATURED COURSES PREVIEW -->
-  <div style="max-width: 1200px; margin: 60px auto; padding: 0 24px;">
-    <div style="margin-bottom: 36px;">
-      <div class="section-tag">Featured Courses</div>
-      <h2 style="font-size: 32px; font-weight: 800; margin: 8px 0 10px;">Start Your BIM Journey</h2>
-      <p style="color: var(--muted-foreground, #64748b); font-size: 15px;">Practical courses built by experienced BIM professionals</p>
-    </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
-      <!-- Course Card 1 - FEATURED -->
-      <div class="course-card" onclick="openCourse('bim-coord')" style="background: var(--card, white); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border, #e2e8f0);">
-        <div style="background: linear-gradient(135deg, #1a3a5c, #0d6efd); height: 160px; display: flex; align-items: center; justify-content: center; position: relative;">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span style="position:absolute;top:12px;right:12px;" class="badge" style="background:#f59e0b;color:white;">⭐ FLAGSHIP</span>
-          <span style="position:absolute;top:12px;right:12px;background:#f59e0b;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;">⭐ FLAGSHIP</span>
-        </div>
-        <div style="padding: 20px;">
-          <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-            <span class="badge" style="background:#dbeafe;color:#1d4ed8;">BIM Coordination</span>
-            <span class="badge" style="background:#dcfce7;color:#15803d;">Advanced</span>
-          </div>
-          <h3 style="font-size: 16px; font-weight: 800; margin: 0 0 8px; line-height: 1.3;">BIM Coordination & Advanced Workflows</h3>
-          <p style="color: var(--muted-foreground, #64748b); font-size: 13px; line-height: 1.55; margin-bottom: 14px;">Clash detection, federated models, coordination meetings, Navisworks, BCF workflows and more.</p>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
-            <span class="star">★★★★★</span>
-            <span style="font-size:13px;font-weight:700;">4.9</span>
-            <span style="font-size:12px;color:var(--muted-foreground,#64748b);">(142 reviews)</span>
-          </div>
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;"></div></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;">
-            <div>
-              <span style="font-size:22px;font-weight:900;color:#0d6efd;">\$149</span>
-              <span style="font-size:13px;color:var(--muted-foreground,#64748b);text-decoration:line-through;margin-left:6px;">\$299</span>
-            </div>
-            <button onclick="event.stopPropagation();openModal('purchase','bim-coord')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Enroll Now</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Course Card 2 -->
-      <div class="course-card" onclick="openCourse('revit-struct')" style="background: var(--card, white); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border, #e2e8f0);">
-        <div style="background: linear-gradient(135deg, #1e4d2b, #16a34a); height: 160px; display: flex; align-items: center; justify-content: center;">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6m-6 4h6m-6 4h4"/>
-          </svg>
-        </div>
-        <div style="padding: 20px;">
-          <div style="display:flex;gap:6px;margin-bottom:8px;">
-            <span class="badge" style="background:#dcfce7;color:#15803d;">Revit Structure</span>
-            <span class="badge" style="background:#fef9c3;color:#a16207;">Intermediate</span>
-          </div>
-          <h3 style="font-size: 16px; font-weight: 800; margin: 0 0 8px; line-height: 1.3;">Revit Structure Modeling Mastery</h3>
-          <p style="color: var(--muted-foreground, #64748b); font-size: 13px; line-height: 1.55; margin-bottom: 14px;">Foundations, framing systems, rebar detailing, structural families and documentation.</p>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
-            <span class="star">★★★★★</span>
-            <span style="font-size:13px;font-weight:700;">4.8</span>
-            <span style="font-size:12px;color:var(--muted-foreground,#64748b);">(98 reviews)</span>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;">
-            <div>
-              <span style="font-size:22px;font-weight:900;color:#0d6efd;">\$119</span>
-              <span style="font-size:13px;color:var(--muted-foreground,#64748b);text-decoration:line-through;margin-left:6px;">\$249</span>
-            </div>
-            <button onclick="event.stopPropagation();openModal('purchase','revit-struct')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Enroll Now</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Course Card 3 -->
-      <div class="course-card" onclick="openCourse('autocad-2d')" style="background: var(--card, white); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid var(--border, #e2e8f0);">
-        <div style="background: linear-gradient(135deg, #4a1d96, #7c3aed); height: 160px; display: flex; align-items: center; justify-content: center;">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-        </div>
-        <div style="padding: 20px;">
-          <div style="display:flex;gap:6px;margin-bottom:8px;">
-            <span class="badge" style="background:#ede9fe;color:#6d28d9;">AutoCAD</span>
-            <span class="badge" style="background:#dbeafe;color:#1d4ed8;">Beginner</span>
-          </div>
-          <h3 style="font-size: 16px; font-weight: 800; margin: 0 0 8px; line-height: 1.3;">AutoCAD 2D/3D for BIM Professionals</h3>
-          <p style="color: var(--muted-foreground, #64748b); font-size: 13px; line-height: 1.55; margin-bottom: 14px;">Complete 2D drafting, 3D modeling, annotation, sheet sets, and CAD-to-BIM workflows.</p>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
-            <span class="star">★★★★☆</span>
-            <span style="font-size:13px;font-weight:700;">4.7</span>
-            <span style="font-size:12px;color:var(--muted-foreground,#64748b);">(76 reviews)</span>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;">
-            <div>
-              <span style="font-size:22px;font-weight:900;color:#0d6efd;">\$89</span>
-              <span style="font-size:13px;color:var(--muted-foreground,#64748b);text-decoration:line-through;margin-left:6px;">\$179</span>
-            </div>
-            <button onclick="event.stopPropagation();openModal('purchase','autocad-2d')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Enroll Now</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:32px;">
-      <button onclick="showSection('courses')" style="background:none;border:2px solid #0d6efd;color:#0d6efd;padding:12px 32px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#0d6efd';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='#0d6efd'">View All Courses →</button>
-    </div>
-  </div>
-
-  <!-- ABOUT SECTION -->
-  <div style="background: var(--card, white); padding: 60px 24px; border-top: 1px solid var(--border, #e2e8f0);">
-    <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
-      <div>
-        <div class="section-tag">Why BSD BIM Training?</div>
-        <h2 style="font-size: 30px; font-weight: 800; margin: 10px 0 18px;">Built by Real BIM Coordinators</h2>
-        <p style="color: var(--muted-foreground, #64748b); line-height: 1.7; margin-bottom: 20px;">Our instructors have years of hands-on experience working on complex structural, architectural, and MEP BIM projects. Every lesson comes from real site coordination challenges.</p>
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <span style="background:#dbeafe;color:#1d4ed8;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;">🎯</span>
-            <div><strong>Practical, Project-Based Learning</strong><p style="margin:4px 0 0;font-size:13px;color:var(--muted-foreground,#64748b);">Every module includes real project files and coordination scenarios.</p></div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <span style="background:#dcfce7;color:#15803d;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;">🎬</span>
-            <div><strong>HD Video Demonstrations</strong><p style="margin:4px 0 0;font-size:13px;color:var(--muted-foreground,#64748b);">Screen-recorded walkthroughs of actual Revit and AutoCAD modeling sessions.</p></div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <span style="background:#fef9c3;color:#a16207;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;">📥</span>
-            <div><strong>Downloadable Practice Files</strong><p style="margin:4px 0 0;font-size:13px;color:var(--muted-foreground,#64748b);">RVT, DWG, and NWD files included with every course.</p></div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <span style="background:#fce7f3;color:#9d174d;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;">🏆</span>
-            <div><strong>Completion Certificates</strong><p style="margin:4px 0 0;font-size:13px;color:var(--muted-foreground,#64748b);">Earn certificates recognized in BIM-related job applications.</p></div>
-          </div>
-        </div>
-      </div>
-      <div style="background: linear-gradient(135deg, #1a3a5c, #0d6efd); border-radius: 16px; padding: 36px; color: white;">
-        <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 20px;">🎓 Learning Tracks Available</h3>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 14px 16px; display:flex;align-items:center;gap:12px;">
-            <span style="font-size:22px;">🏗️</span>
-            <div><div style="font-weight:700;">BIM Coordinator Track</div><div style="font-size:12px;opacity:0.8;">Revit + Navisworks + BCF</div></div>
-          </div>
-          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 14px 16px; display:flex;align-items:center;gap:12px;">
-            <span style="font-size:22px;">🔩</span>
-            <div><div style="font-weight:700;">Structural Modeler Track</div><div style="font-size:12px;opacity:0.8;">Revit Structure + Rebar + Detailing</div></div>
-          </div>
-          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 14px 16px; display:flex;align-items:center;gap:12px;">
-            <span style="font-size:22px;">✏️</span>
-            <div><div style="font-weight:700;">CAD Technician Track</div><div style="font-size:12px;opacity:0.8;">AutoCAD 2D + 3D + BIM Integration</div></div>
-          </div>
-          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 14px 16px; display:flex;align-items:center;gap:12px;">
-            <span style="font-size:22px;">🌐</span>
-            <div><div style="font-weight:700;">Full BIM Professional Track</div><div style="font-size:12px;opacity:0.8;">All courses + Mentorship included</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ───────────────────────────────────────
-     COURSES SECTION
-─────────────────────────────────────── -->
-<section id="section-courses" style="display:none; max-width: 1200px; margin: 0 auto; padding: 48px 24px;">
-  <div style="margin-bottom: 36px;">
-    <div class="section-tag">Course Catalog</div>
-    <h2 style="font-size: 34px; font-weight: 900; margin: 8px 0 12px;">All BIM Courses</h2>
-    <p style="color: var(--muted-foreground, #64748b);">Professional training for BIM technicians, coordinators, and modelers</p>
-  </div>
-
-  <!-- Filters -->
-  <div style="display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;">
-    <button onclick="filterCourses('all')" id="filter-all" style="background:#0d6efd;color:white;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">All</button>
-    <button onclick="filterCourses('coordination')" id="filter-coordination" style="background:var(--card,white);color:var(--foreground,#1e293b);border:1px solid var(--border,#e2e8f0);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">BIM Coordination</button>
-    <button onclick="filterCourses('revit')" id="filter-revit" style="background:var(--card,white);color:var(--foreground,#1e293b);border:1px solid var(--border,#e2e8f0);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Revit</button>
-    <button onclick="filterCourses('autocad')" id="filter-autocad" style="background:var(--card,white);color:var(--foreground,#1e293b);border:1px solid var(--border,#e2e8f0);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">AutoCAD</button>
-    <button onclick="filterCourses('navisworks')" id="filter-navisworks" style="background:var(--card,white);color:var(--foreground,#1e293b);border:1px solid var(--border,#e2e8f0);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Navisworks</button>
-  </div>
-
-  <!-- All Courses Grid -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;" id="courses-grid">
-    <!-- Generated by JS -->
-  </div>
-</section>
-
-
-<!-- ───────────────────────────────────────
-     VIDEO LIBRARY SECTION
-─────────────────────────────────────── -->
-<section id="section-videos" style="display:none; max-width: 1300px; margin: 0 auto; padding: 48px 24px;">
-  <div style="margin-bottom: 32px;">
-    <div class="section-tag">Video Library</div>
-    <h2 style="font-size: 34px; font-weight: 900; margin: 8px 0 12px;">BIM Video Demonstrations</h2>
-    <p style="color: var(--muted-foreground, #64748b);">Watch Revit and AutoCAD modeling sessions, coordination walkthroughs, and tutorials</p>
-  </div>
-
-  <!-- Video Tabs -->
-  <div style="display:flex;gap:0;border-bottom:2px solid var(--border,#e2e8f0);margin-bottom:28px;">
-    <button class="tab-btn active" onclick="switchVideoTab('revit',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#0d6efd;border-bottom:3px solid #0d6efd;margin-bottom:-2px;">Revit Demos</button>
-    <button class="tab-btn" onclick="switchVideoTab('autocad',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted-foreground,#64748b);">AutoCAD Demos</button>
-    <button class="tab-btn" onclick="switchVideoTab('coord',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted-foreground,#64748b);">Coordination</button>
-    <button class="tab-btn" onclick="switchVideoTab('navis',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted-foreground,#64748b);">Navisworks</button>
-    <button class="tab-btn" onclick="switchVideoTab('youtube',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted-foreground,#64748b);">📺 YouTube Links</button>
-  </div>
-
-  <!-- Video Tab Content -->
-  <div id="video-content"></div>
-
-  <!-- YouTube Link Manager -->
-  <div id="yt-manager" style="display:none;margin-top:28px;">
-    <div style="background:var(--card,white);border-radius:14px;padding:28px;border:1px solid var(--border,#e2e8f0);margin-bottom:24px;">
-      <h3 style="font-size:18px;font-weight:800;margin:0 0 16px;">📺 Add YouTube Video</h3>
-      <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
-        <div style="flex:1;min-width:280px;">
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">YouTube URL or Video ID</label>
-          <input id="yt-url-input" type="text" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;" />
-        </div>
-        <div style="flex:1;min-width:200px;">
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Title</label>
-          <input id="yt-title-input" type="text" placeholder="Video title..." style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;" />
-        </div>
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Category</label>
-          <select id="yt-cat-input" style="padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);">
-            <option value="revit">Revit</option>
-            <option value="autocad">AutoCAD</option>
-            <option value="coord">Coordination</option>
-            <option value="navis">Navisworks</option>
-          </select>
-        </div>
-        <button onclick="addYouTubeVideo()" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Add Video</button>
-      </div>
-    </div>
-    <div id="yt-gallery" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;"></div>
-  </div>
-</section>
-
-
-<!-- ───────────────────────────────────────
-     PRICING SECTION
-─────────────────────────────────────── -->
-<section id="section-pricing" style="display:none; padding: 60px 24px; background: var(--background, #f8fafc);">
-  <div style="max-width: 1100px; margin: 0 auto;">
-    <div style="text-align:center;margin-bottom:48px;">
-      <div class="section-tag" style="text-align:center;">Pricing Plans</div>
-      <h2 style="font-size:36px;font-weight:900;margin:10px 0 14px;">Invest in Your BIM Career</h2>
-      <p style="color:var(--muted-foreground,#64748b);font-size:16px;">Choose the plan that fits your learning goals</p>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;align-items:start;">
-      <!-- Starter -->
-      <div class="pricing-card" style="background:var(--card,white);border-radius:16px;padding:32px;border:1px solid var(--border,#e2e8f0);box-shadow:0 4px 16px rgba(0,0,0,0.06);">
-        <div style="font-size:14px;font-weight:700;color:#64748b;margin-bottom:8px;">STARTER</div>
-        <div style="font-size:42px;font-weight:900;color:var(--foreground,#1e293b);">\$0 <span style="font-size:16px;font-weight:400;color:#64748b;">/month</span></div>
-        <p style="color:var(--muted-foreground,#64748b);font-size:14px;margin:12px 0 24px;">Perfect for getting started with BIM basics</p>
-        <button onclick="openModal('register')" style="width:100%;background:var(--background,#f8fafc);border:2px solid var(--border,#e2e8f0);color:var(--foreground,#1e293b);padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:24px;">Get Started Free</button>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> 5 Free Introductory Lessons</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> YouTube Demo Access</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> Community Forum Access</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8;"><span>✗</span> Full Course Library</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8;"><span>✗</span> Practice Files</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8;"><span>✗</span> Certificates</div>
-        </div>
-      </div>
-
-      <!-- Professional - POPULAR -->
-      <div class="pricing-card pricing-popular" style="background:var(--card,white);border-radius:16px;padding:32px;box-shadow:0 12px 40px rgba(13,110,253,0.2);">
-        <div style="font-size:14px;font-weight:700;color:#0d6efd;margin-bottom:8px;">PROFESSIONAL</div>
-        <div style="font-size:42px;font-weight:900;color:var(--foreground,#1e293b);">\$49 <span style="font-size:16px;font-weight:400;color:#64748b;">/month</span></div>
-        <p style="color:var(--muted-foreground,#64748b);font-size:14px;margin:12px 0 24px;">Full access for serious BIM professionals</p>
-        <button onclick="openModal('purchase','pro-monthly')" style="width:100%;background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:24px;box-shadow:0 4px 14px rgba(13,110,253,0.4);">Subscribe Now</button>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> All 12+ Courses</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> All Video Demonstrations</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> Downloadable RVT/DWG Files</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> Completion Certificates</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#22c55e;font-weight:700;">✓</span> Priority Forum Support</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8;"><span>✗</span> 1-on-1 Mentorship</div>
-        </div>
-      </div>
-
-      <!-- Enterprise -->
-      <div class="pricing-card" style="background:linear-gradient(135deg,#0d1b2e,#1a3a5c);border-radius:16px;padding:32px;color:white;box-shadow:0 4px 24px rgba(0,0,0,0.2);">
-        <div style="font-size:14px;font-weight:700;color:#60a5fa;margin-bottom:8px;">ENTERPRISE / TEAM</div>
-        <div style="font-size:42px;font-weight:900;">\$199 <span style="font-size:16px;font-weight:400;opacity:0.7;">/month</span></div>
-        <p style="opacity:0.75;font-size:14px;margin:12px 0 24px;">Full team access with mentorship & custom training</p>
-        <button onclick="openModal('purchase','enterprise')" style="width:100%;background:white;color:#0d1b2e;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:24px;">Contact Sales</button>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#4ade80;font-weight:700;">✓</span> Up to 20 Team Members</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#4ade80;font-weight:700;">✓</span> Everything in Professional</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#4ade80;font-weight:700;">✓</span> Live Weekly Mentorship Sessions</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#4ade80;font-weight:700;">✓</span> Custom Course Creation</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#4ade80;font-weight:700;">✓</span> Team Progress Dashboard</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:14px;"><span style="color:#4ade80;font-weight:700;">✓</span> Dedicated Account Manager</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Individual Course Purchase -->
-    <div style="background:var(--card,white);border-radius:16px;padding:32px;margin-top:32px;border:1px solid var(--border,#e2e8f0);text-align:center;">
-      <h3 style="font-size:22px;font-weight:800;margin:0 0 10px;">Prefer Individual Courses?</h3>
-      <p style="color:var(--muted-foreground,#64748b);margin-bottom:20px;">Purchase any course individually. One-time payment, lifetime access.</p>
-      <button onclick="showSection('courses')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:13px 36px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;">Browse Individual Courses</button>
-    </div>
-  </div>
-</section>
-
-
-<!-- ───────────────────────────────────────
-     UPLOAD SECTION
-─────────────────────────────────────── -->
-<section id="section-upload" style="display:none; max-width: 900px; margin: 0 auto; padding: 48px 24px;">
-  <div style="margin-bottom: 36px;">
-    <div class="section-tag">Content Management</div>
-    <h2 style="font-size: 34px; font-weight: 900; margin: 8px 0 12px;">Upload Training Content</h2>
-    <p style="color: var(--muted-foreground, #64748b);">Add videos, presentations, practice files, and resources to the platform</p>
-  </div>
-
-  <!-- Upload Tabs -->
-  <div style="display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
-    <button onclick="switchUploadTab('video')" id="utab-video" style="background:#0d6efd;color:white;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">🎬 Video</button>
-    <button onclick="switchUploadTab('file')" id="utab-file" style="background:var(--card,white);border:1.5px solid var(--border,#e2e8f0);color:var(--foreground,#1e293b);padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">📁 Practice Files</button>
-    <button onclick="switchUploadTab('youtube')" id="utab-youtube" style="background:var(--card,white);border:1.5px solid var(--border,#e2e8f0);color:var(--foreground,#1e293b);padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">📺 YouTube Link</button>
-    <button onclick="switchUploadTab('slide')" id="utab-slide" style="background:var(--card,white);border:1.5px solid var(--border,#e2e8f0);color:var(--foreground,#1e293b);padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">📊 Slides/PDFs</button>
-  </div>
-
-  <!-- Video Upload -->
-  <div id="upload-video" style="background:var(--card,white);border-radius:14px;padding:28px;border:1px solid var(--border,#e2e8f0);">
-    <h3 style="font-size:18px;font-weight:800;margin:0 0 20px;">Upload Training Video</h3>
-    <div class="drop-zone" id="video-drop" onclick="document.getElementById('video-file-input').click()" style="padding:48px;text-align:center;margin-bottom:20px;">
-      <div style="font-size:48px;margin-bottom:12px;">🎬</div>
-      <div style="font-size:16px;font-weight:700;margin-bottom:6px;">Drop your video here</div>
-      <div style="font-size:13px;color:var(--muted-foreground,#64748b);margin-bottom:14px;">MP4, MOV, AVI • Max 2GB</div>
-      <button style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Choose Video File</button>
-      <input id="video-file-input" type="file" accept="video/*" style="display:none;" onchange="handleVideoUpload(this)" />
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Video Title *</label>
-        <input type="text" placeholder="e.g. Revit Structural Framing Walkthrough" style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Course Assignment</label>
-        <select style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);">
-          <option>BIM Coordination & Advanced Workflows</option>
-          <option>Revit Structure Modeling Mastery</option>
-          <option>AutoCAD 2D/3D for BIM Professionals</option>
-          <option>Navisworks Clash Detection</option>
-          <option>New Course (Standalone)</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Description</label>
-      <textarea placeholder="Describe what students will learn in this video..." rows="3" style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);resize:vertical;box-sizing:border-box;"></textarea>
-    </div>
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Access Level</label>
-        <select style="padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);">
-          <option>🔒 Paid Members Only</option>
-          <option>🆓 Free Preview</option>
-          <option>👥 Team Only</option>
-        </select>
-      </div>
-      <div style="flex:1;"></div>
-      <button onclick="showToast('✅ Video uploaded successfully!','#22c55e')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">Upload Video</button>
-    </div>
-  </div>
-
-  <!-- File Upload (hidden by default) -->
-  <div id="upload-file" style="display:none;background:var(--card,white);border-radius:14px;padding:28px;border:1px solid var(--border,#e2e8f0);">
-    <h3 style="font-size:18px;font-weight:800;margin:0 0 20px;">Upload Practice Files</h3>
-    <div class="drop-zone" onclick="document.getElementById('file-input').click()" style="padding:48px;text-align:center;margin-bottom:20px;">
-      <div style="font-size:48px;margin-bottom:12px;">📁</div>
-      <div style="font-size:16px;font-weight:700;margin-bottom:6px;">Drop practice files here</div>
-      <div style="font-size:13px;color:var(--muted-foreground,#64748b);margin-bottom:14px;">RVT, DWG, NWD, PDF, ZIP • Max 500MB</div>
-      <button style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Choose Files</button>
-      <input id="file-input" type="file" multiple style="display:none;" accept=".rvt,.dwg,.nwd,.pdf,.zip" onchange="showToast('📁 Files selected: ' + this.files.length,'#0d6efd')" />
-    </div>
-    <button onclick="showToast('✅ Files uploaded successfully!','#22c55e')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;float:right;">Upload Files</button>
-    <div style="clear:both;"></div>
-  </div>
-
-  <!-- YouTube Link (hidden by default) -->
-  <div id="upload-youtube" style="display:none;background:var(--card,white);border-radius:14px;padding:28px;border:1px solid var(--border,#e2e8f0);">
-    <h3 style="font-size:18px;font-weight:800;margin:0 0 20px;">📺 Add YouTube Video Link</h3>
-    <p style="color:var(--muted-foreground,#64748b);font-size:14px;margin-bottom:20px;">Add YouTube videos directly to the video library. Students will watch them embedded on the platform.</p>
-    <div style="display:flex;flex-direction:column;gap:16px;">
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">YouTube URL *</label>
-        <input id="upload-yt-url" type="text" placeholder="https://www.youtube.com/watch?v=VIDEO_ID" style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Video Title *</label>
-          <input id="upload-yt-title" type="text" placeholder="e.g. Revit Wall Systems Tutorial" style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Category</label>
-          <select id="upload-yt-cat" style="width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);">
-            <option value="revit">Revit</option>
-            <option value="autocad">AutoCAD</option>
-            <option value="coord">Coordination</option>
-            <option value="navis">Navisworks</option>
-          </select>
-        </div>
-      </div>
-      <button onclick="addVideoFromUpload()" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;align-self:flex-end;">Add to Library</button>
-    </div>
-  </div>
-
-  <!-- Slides/PDF Upload (hidden by default) -->
-  <div id="upload-slide" style="display:none;background:var(--card,white);border-radius:14px;padding:28px;border:1px solid var(--border,#e2e8f0);">
-    <h3 style="font-size:18px;font-weight:800;margin:0 0 20px;">Upload Slides & PDFs</h3>
-    <div class="drop-zone" onclick="document.getElementById('slide-input').click()" style="padding:48px;text-align:center;margin-bottom:20px;">
-      <div style="font-size:48px;margin-bottom:12px;">📊</div>
-      <div style="font-size:16px;font-weight:700;margin-bottom:6px;">Drop presentations or PDFs here</div>
-      <div style="font-size:13px;color:var(--muted-foreground,#64748b);margin-bottom:14px;">PDF, PPTX, DOCX • Max 100MB</div>
-      <button style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Choose Document</button>
-      <input id="slide-input" type="file" style="display:none;" accept=".pdf,.pptx,.docx" onchange="showToast('📊 Document selected: ' + this.files[0].name,'#0d6efd')" />
-    </div>
-    <button onclick="showToast('✅ Document uploaded successfully!','#22c55e')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;float:right;">Upload Document</button>
-    <div style="clear:both;"></div>
-  </div>
-</section>
-
-</div> <!-- end #app-root -->
-
-
-<!-- ═══════════════════════════════════════
-     MODAL OVERLAYS
-═══════════════════════════════════════ -->
-<div id="modal-container" style="display:none;" class="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <!-- LOGIN -->
-  <div id="modal-login" class="modal-box" style="display:none;">
-    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted-foreground,#64748b);">✕</button>
-    <div style="text-align:center;margin-bottom:28px;">
-      <div style="font-size:40px;margin-bottom:8px;">🏗️</div>
-      <h2 style="font-size:24px;font-weight:900;margin:0 0 6px;">Welcome Back</h2>
-      <p style="color:var(--muted-foreground,#64748b);font-size:14px;">Sign in to your BSD BIM Training account</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Email Address</label>
-        <input type="email" placeholder="your@email.com" style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Password</label>
-        <input type="password" placeholder="••••••••" style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <button onclick="showToast('✅ Logged in successfully!','#22c55e');closeModal();" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;">Sign In</button>
-      <p style="text-align:center;font-size:13px;color:var(--muted-foreground,#64748b);margin:0;">Don't have an account? <button onclick="openModal('register')" style="background:none;border:none;color:#0d6efd;font-weight:700;cursor:pointer;font-size:13px;">Register</button></p>
-    </div>
-  </div>
-
-  <!-- REGISTER -->
-  <div id="modal-register" class="modal-box" style="display:none;">
-    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted-foreground,#64748b);">✕</button>
-    <div style="text-align:center;margin-bottom:28px;">
-      <div style="font-size:40px;margin-bottom:8px;">🎓</div>
-      <h2 style="font-size:24px;font-weight:900;margin:0 0 6px;">Create Your Account</h2>
-      <p style="color:var(--muted-foreground,#64748b);font-size:14px;">Start your BIM learning journey today</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">First Name</label>
-          <input type="text" placeholder="John" style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Last Name</label>
-          <input type="text" placeholder="Doe" style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-        </div>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Email Address</label>
-        <input type="email" placeholder="your@email.com" style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Role</label>
-        <select style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);">
-          <option>BIM Coordinator</option>
-          <option>Structural Modeler</option>
-          <option>CAD Technician</option>
-          <option>BIM Manager</option>
-          <option>Student / Beginner</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Password</label>
-        <input type="password" placeholder="••••••••" style="width:100%;padding:12px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <button onclick="showToast('🎉 Account created! Welcome aboard!','#22c55e');closeModal();" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;">Create Free Account</button>
-      <p style="text-align:center;font-size:13px;color:var(--muted-foreground,#64748b);margin:0;">Already have an account? <button onclick="openModal('login')" style="background:none;border:none;color:#0d6efd;font-weight:700;cursor:pointer;font-size:13px;">Sign In</button></p>
-    </div>
-  </div>
-
-  <!-- PURCHASE -->
-  <div id="modal-purchase" class="modal-box" style="display:none;">
-    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted-foreground,#64748b);">✕</button>
-    <div style="text-align:center;margin-bottom:24px;">
-      <div style="font-size:40px;margin-bottom:8px;">🛒</div>
-      <h2 style="font-size:22px;font-weight:900;margin:0 0 6px;" id="purchase-title">Enroll in Course</h2>
-      <p style="color:var(--muted-foreground,#64748b);font-size:14px;">Secure checkout — Lifetime access included</p>
-    </div>
-    <!-- Order Summary -->
-    <div style="background:var(--background,#f8fafc);border-radius:10px;padding:16px;margin-bottom:20px;border:1px solid var(--border,#e2e8f0);">
-      <div style="font-size:12px;font-weight:700;color:#64748b;margin-bottom:10px;letter-spacing:0.06em;">ORDER SUMMARY</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span style="font-size:14px;" id="purchase-item-name">BIM Coordination & Advanced Workflows</span>
-        <span style="font-size:14px;font-weight:700;" id="purchase-item-price">\$149</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span style="font-size:13px;color:#64748b;">Access Duration</span>
-        <span style="font-size:13px;color:#22c55e;font-weight:600;">Lifetime ♾️</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border,#e2e8f0);">
-        <span style="font-size:15px;font-weight:800;">Total</span>
-        <span style="font-size:20px;font-weight:900;color:#0d6efd;" id="purchase-total">\$149</span>
-      </div>
-    </div>
-    <!-- Payment Form -->
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Name on Card</label>
-        <input type="text" placeholder="John Doe" style="width:100%;padding:11px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Card Number</label>
-        <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" style="width:100%;padding:11px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;" oninput="formatCard(this)"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Expiry Date</label>
-          <input type="text" placeholder="MM/YY" maxlength="5" style="width:100%;padding:11px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">CVC</label>
-          <input type="text" placeholder="123" maxlength="3" style="width:100%;padding:11px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-        </div>
-      </div>
-      <div>
-        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Email (Receipt)</label>
-        <input type="email" placeholder="your@email.com" style="width:100%;padding:11px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;background:var(--background,#f8fafc);color:var(--foreground,#1e293b);box-sizing:border-box;"/>
-      </div>
-      <button onclick="completePurchase()" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;margin-top:4px;box-shadow:0 4px 14px rgba(13,110,253,0.4);">
-        🔒 Complete Purchase
-      </button>
-      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;">
-        <span style="font-size:12px;color:#64748b;">🔒 SSL Secured</span>
-        <span style="font-size:12px;color:#64748b;">💳 Visa/MC/AmEx</span>
-        <span style="font-size:12px;color:#64748b;">↩️ 30-day Guarantee</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- VIDEO PLAYER -->
-  <div id="modal-video" class="modal-box" style="display:none;max-width:800px;padding:20px;">
-    <button onclick="closeModal()" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--muted-foreground,#64748b);z-index:10;">✕</button>
-    <h3 id="video-modal-title" style="font-size:18px;font-weight:800;margin:0 0 16px;padding-right:32px;">Video Title</h3>
-    <div class="yt-embed" id="video-modal-embed"></div>
-    <p id="video-modal-desc" style="color:var(--muted-foreground,#64748b);font-size:14px;margin-top:14px;line-height:1.6;"></p>
-  </div>
-
-  <!-- COURSE DETAIL -->
-  <div id="modal-course" class="modal-box" style="display:none;max-width:680px;">
-    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted-foreground,#64748b);">✕</button>
-    <div id="course-modal-content"></div>
   </div>
 </div>
 
 
-<!-- ═══════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════ -->
-<footer style="background:#0d1b2e;color:#94a3b8;padding:48px 24px 24px;margin-top:60px;">
-  <div style="max-width:1200px;margin:0 auto;">
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;flex-wrap:wrap;">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-          <div style="width:32px;height:32px;background:linear-gradient(135deg,#0d6efd,#00b4d8);border-radius:7px;display:flex;align-items:center;justify-content:center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <span style="color:white;font-weight:800;font-size:15px;">BSD BIM Training Center</span>
-        </div>
-        <p style="font-size:14px;line-height:1.65;color:#64748b;max-width:280px;">Professional BIM education for technicians, coordinators, and modelers. Built by real BIM professionals for the industry.</p>
+<!-- ══════════════════════════════════════════
+     TOP NAVIGATION BAR
+══════════════════════════════════════════ -->
+<nav style="background:#030712;position:sticky;top:0;z-index:100;box-shadow:0 4px 25px rgba(0,0,0,0.6);border-bottom:1px solid rgba(56,189,248,0.15);">
+  <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:68px;">
+    <!-- Brand Logo -->
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="showSection('home')">
+      <div style="width:42px;height:42px;background:linear-gradient(135deg,#2563eb,#06b6d4);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(37,99,235,0.6);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
       </div>
       <div>
-        <div style="color:white;font-weight:700;margin-bottom:14px;font-size:14px;">Courses</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <a href="#" onclick="showSection('courses')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">BIM Coordination</a>
-          <a href="#" onclick="showSection('courses')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">Revit Structure</a>
-          <a href="#" onclick="showSection('courses')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">AutoCAD 2D/3D</a>
-          <a href="#" onclick="showSection('courses')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">Navisworks</a>
-        </div>
+        <div style="color:#ffffff;font-weight:900;font-size:18px;line-height:1.1;letter-spacing:-0.02em;">BSD BIM Training</div>
+        <div style="color:#38bdf8;font-size:10.5px;letter-spacing:0.18em;font-weight:800;">CENTER</div>
       </div>
-      <div>
-        <div style="color:white;font-weight:700;margin-bottom:14px;font-size:14px;">Platform</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <a href="#" onclick="showSection('videos')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">Video Library</a>
-          <a href="#" onclick="showSection('pricing')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">Pricing</a>
-          <a href="#" onclick="showSection('upload')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">Upload Content</a>
-          <a href="#" onclick="openModal('register')" style="color:#64748b;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#64748b'">Register Free</a>
-        </div>
+    </div>
+
+    <!-- Nav Links -->
+    <div style="display:flex;gap:28px;align-items:center;">
+      <button onclick="showSection('home')"    class="nav-btn active" style="background:none;border:none;color:#ffffff;font-size:14px;font-weight:600;cursor:pointer;padding:4px 0;" id="nav-home">Home</button>
+      <button onclick="showSection('courses')" class="nav-btn"        style="background:none;border:none;color:#94a3b8;font-size:14px;font-weight:600;cursor:pointer;padding:4px 0;" id="nav-courses">Courses</button>
+      <button onclick="showSection('videos')"  class="nav-btn"        style="background:none;border:none;color:#94a3b8;font-size:14px;font-weight:600;cursor:pointer;padding:4px 0;" id="nav-videos">Video Library</button>
+      <button onclick="showSection('pricing')" class="nav-btn"        style="background:none;border:none;color:#94a3b8;font-size:14px;font-weight:600;cursor:pointer;padding:4px 0;" id="nav-pricing">Pricing</button>
+      
+      <!-- 🔒 ADMIN LOCKED BUTTON -->
+      <button onclick="openAdminUpload()" class="nav-btn" style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;" id="nav-upload">
+        <span>🔒</span> Admin Upload
+      </button>
+    </div>
+
+    <!-- Action Buttons & Status -->
+    <div style="display:flex;gap:12px;align-items:center;">
+      <div id="admin-badge-indicator" style="display:none;" class="admin-pill">
+        <span style="width:8px;height:8px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px #4ade80;"></span>
+        Admin Unlocked
       </div>
-      <div>
-        <div style="color:white;font-weight:700;margin-bottom:14px;font-size:14px;">Contact</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <span style="font-size:13px;">📧 training@bsd-bim.com</span>
-          <span style="font-size:13px;">🌐 bsd-bim-training.com</span>
-          <span style="font-size:13px;">💬 Live Chat Available</span>
-          <span style="font-size:13px;">🕒 Support: Mon–Fri 9–5</span>
+      <button onclick="openModal('login')" style="background:none;border:1.5px solid #334155;color:#cbd5e1;padding:8px 18px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;" onmouseover="this.style.borderColor='#38bdf8';this.style.color='#38bdf8'" onmouseout="this.style.borderColor='#334155';this.style.color='#cbd5e1'">Log In</button>
+      <button onclick="openModal('register')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);border:none;color:white;padding:9px 22px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:800;box-shadow:0 4px 18px rgba(37,99,235,0.45);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">Get Started Free</button>
+    </div>
+  </div>
+</nav>
+
+<div class="neon-divider"></div>
+
+
+<!-- ══════════════════════════════════════════
+     MAIN APPLICATION SECTIONS
+══════════════════════════════════════════ -->
+<div id="app-root">
+
+<!-- ─────────────────────────────────────────
+     1. HOME SECTION (WITH FANCY GRAPHICS)
+───────────────────────────────────────── -->
+<section id="section-home">
+  <div class="hero-bg">
+    <!-- Animated Blueprint Grid -->
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="scan-line"></div>
+
+    <!-- Animated Orbs -->
+    <div class="orb" style="width:550px;height:550px;background:rgba(37,99,235,0.16);top:-100px;left:-100px;animation-duration:14s;"></div>
+    <div class="orb" style="width:420px;height:420px;background:rgba(6,182,212,0.14);bottom:-80px;right:-80px;animation-duration:10s;"></div>
+
+    <!-- 3D Rotating Isometric Wireframes -->
+    <div class="wireframe-cube" style="top:12%;left:6%;opacity:0.35;">
+      <svg width="130" height="130" viewBox="0 0 120 120" fill="none" stroke="#38bdf8" stroke-width="1.2">
+        <rect x="25" y="45" width="50" height="50" rx="2"/>
+        <rect x="45" y="25" width="50" height="50" rx="2"/>
+        <line x1="25" y1="45" x2="45" y2="25"/><line x1="75" y1="45" x2="95" y2="25"/>
+        <line x1="25" y1="95" x2="45" y2="75"/><line x1="75" y1="95" x2="95" y2="75"/>
+      </svg>
+    </div>
+    <div class="wireframe-cube" style="top:18%;right:7%;opacity:0.3;">
+      <svg width="110" height="110" viewBox="0 0 120 120" fill="none" stroke="#818cf8" stroke-width="1.4">
+        <polygon points="60,20 100,45 100,90 60,110 20,90 20,45"/>
+        <line x1="60" y1="20" x2="60" y2="110"/>
+        <line x1="100" y1="45" x2="20" y2="90"/>
+        <line x1="20" y1="45" x2="100" y2="90"/>
+      </svg>
+    </div>
+    <div class="wireframe-cube" style="bottom:15%;left:10%;opacity:0.25;">
+      <svg width="150" height="150" viewBox="0 0 120 120" fill="none" stroke="#06b6d4" stroke-width="1">
+        <rect x="20" y="40" width="60" height="60"/>
+        <rect x="40" y="20" width="60" height="60"/>
+        <line x1="20" y1="40" x2="40" y2="20"/><line x1="80" y1="40" x2="100" y2="20"/>
+        <line x1="20" y1="100" x2="40" y2="80"/><line x1="80" y1="100" x2="100" y2="80"/>
+      </svg>
+    </div>
+
+    <!-- Floating BIM Neon Chips -->
+    <div class="bim-chip" style="top:22%;left:12%;animation-delay:0s;">REVIT STRUCTURE</div>
+    <div class="bim-chip" style="top:26%;right:14%;animation-delay:1.5s;">NAVISWORKS CLASH DETECT</div>
+    <div class="bim-chip" style="bottom:25%;left:8%;animation-delay:3s;">BIM COORDINATION (ISO 19650)</div>
+    <div class="bim-chip" style="bottom:22%;right:12%;animation-delay:2s;">AUTOCAD 2D / 3D</div>
+
+    <!-- Generated Particles Container -->
+    <div id="particles-host"></div>
+
+    <!-- Hero Content -->
+    <div style="position:relative;z-index:10;text-align:center;max-width:880px;padding:60px 24px;margin:0 auto;">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,0.15);border:1px solid rgba(56,189,248,0.4);border-radius:999px;padding:6px 20px;margin-bottom:24px;box-shadow:0 0 20px rgba(37,99,235,0.3);">
+        <span style="width:8px;height:8px;background:#38bdf8;border-radius:50%;box-shadow:0 0 8px #38bdf8;"></span>
+        <span style="color:#38bdf8;font-size:12px;font-weight:800;letter-spacing:0.12em;">🏗️ PROFESSIONAL BIM TRAINING PLATFORM</span>
+      </div>
+
+      <h1 class="glow-header" style="color:#ffffff;font-size:clamp(38px,6vw,68px);font-weight:900;line-height:1.08;margin:0 0 22px;letter-spacing:-0.03em;">
+        Master <span style="background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">BIM Coordination</span><br/>
+        & Advanced Workflows
+      </h1>
+
+      <p style="color:rgba(255,255,255,0.75);font-size:18px;line-height:1.65;margin:0 auto 38px;max-width:660px;">
+        Learn practical Revit Structure, AutoCAD, Navisworks & clash coordination directly from senior modelers. Access HD videos, download simulation files, and advance your engineering career.
+      </p>
+
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:56px;">
+        <button onclick="showSection('courses')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:16px 36px;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 8px 30px rgba(37,99,235,0.5);transition:all 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          🎓 Browse All Courses
+        </button>
+        <button onclick="showSection('videos')" style="background:rgba(255,255,255,0.06);color:white;border:1.5px solid rgba(255,255,255,0.25);padding:16px 36px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:all 0.2s;" onmouseover="this.style.borderColor='#38bdf8';this.style.background='rgba(56,189,248,0.1)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.25)';this.style.background='rgba(255,255,255,0.06)'">
+          ▶ Watch Video Demonstrations
+        </button>
+      </div>
+
+      <!-- Live Stats Panel -->
+      <div style="display:flex;justify-content:center;background:rgba(15,23,42,0.7);border:1px solid rgba(56,189,248,0.2);border-radius:18px;overflow:hidden;backdrop-filter:blur(12px);max-width:720px;margin:0 auto;box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+        <div style="flex:1;padding:20px 12px;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
+          <div id="stat-courses-count" style="font-size:32px;font-weight:900;color:#ffffff;line-height:1;">12+</div>
+          <div style="font-size:12px;color:#94a3b8;font-weight:700;margin-top:4px;">BIM Courses</div>
+        </div>
+        <div style="flex:1;padding:20px 12px;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
+          <div id="stat-videos-count" style="font-size:32px;font-weight:900;color:#38bdf8;line-height:1;">80+</div>
+          <div style="font-size:12px;color:#94a3b8;font-weight:700;margin-top:4px;">Video Walkthroughs</div>
+        </div>
+        <div style="flex:1;padding:20px 12px;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
+          <div style="font-size:32px;font-weight:900;color:#ffffff;line-height:1;">500+</div>
+          <div style="font-size:12px;color:#94a3b8;font-weight:700;margin-top:4px;">Engineers Trained</div>
+        </div>
+        <div style="flex:1;padding:20px 12px;text-align:center;">
+          <div style="font-size:32px;font-weight:900;color:#f59e0b;line-height:1;">4.9 ★</div>
+          <div style="font-size:12px;color:#94a3b8;font-weight:700;margin-top:4px;">Rating Score</div>
         </div>
       </div>
     </div>
-    <div style="border-top:1px solid #1e293b;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-      <span style="font-size:13px;color:#475569;">© 2026 BSD BIM Training Center. All rights reserved.</span>
+  </div>
+
+  <div class="neon-divider"></div>
+
+  <!-- FEATURED COURSES SHOWCASE -->
+  <div style="background:#ffffff;padding:70px 24px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div style="color:#2563eb;font-size:12px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">
+            FLAGSHIP CURRICULUM
+          </div>
+          <h2 style="font-size:36px;font-weight:900;margin:0 0 10px;color:#0f172a;letter-spacing:-0.02em;">
+            Featured BIM Courses
+          </h2>
+          <p style="color:#64748b;font-size:15px;margin:0;">
+            Comprehensive training created with real-world engineering project files
+          </p>
+        </div>
+        <button onclick="showSection('courses')" style="background:none;border:2px solid #2563eb;color:#2563eb;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#2563eb';this.style.color='#ffffff'" onmouseout="this.style.background='none';this.style.color='#2563eb'">
+          View All Courses →
+        </button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px;" id="home-featured-courses">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────
+     2. ALL COURSES CATALOG
+───────────────────────────────────────── -->
+<section id="section-courses" style="display:none;background:#f8fafc;padding:60px 24px;min-height:80vh;">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="margin-bottom:36px;">
+      <div style="color:#2563eb;font-size:12px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">
+        FULL CURRICULUM
+      </div>
+      <h2 style="font-size:36px;font-weight:900;margin:0 0 10px;color:#0f172a;">
+        BIM Training Course Catalog
+      </h2>
+      <p style="color:#64748b;font-size:15px;">
+        Select from foundational CAD drafting to advanced multi-disciplinary BIM coordination.
+      </p>
+    </div>
+
+    <!-- Category Filters -->
+    <div style="display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap;">
+      <button onclick="filterCoursesCatalog('all')"          id="cfilter-all"          style="background:#2563eb;color:white;border:none;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">All Courses</button>
+      <button onclick="filterCoursesCatalog('coordination')" id="cfilter-coordination" style="background:white;color:#334155;border:1.5px solid #e2e8f0;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">BIM Coordination</button>
+      <button onclick="filterCoursesCatalog('revit')"        id="cfilter-revit"        style="background:white;color:#334155;border:1.5px solid #e2e8f0;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">Revit</button>
+      <button onclick="filterCoursesCatalog('autocad')"      id="cfilter-autocad"      style="background:white;color:#334155;border:1.5px solid #e2e8f0;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">AutoCAD</button>
+      <button onclick="filterCoursesCatalog('navisworks')"   id="cfilter-navisworks"   style="background:white;color:#334155;border:1.5px solid #e2e8f0;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">Navisworks</button>
+    </div>
+
+    <div id="catalog-courses-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:24px;">
+      <!-- Populated via JS -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────
+     3. VIDEO LIBRARY & YOUTUBE SIMULATIONS
+───────────────────────────────────────── -->
+<section id="section-videos" style="display:none;background:#f8fafc;padding:60px 24px;min-height:80vh;">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
+      <div>
+        <div style="color:#2563eb;font-size:12px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">
+          MEDIA CENTER
+        </div>
+        <h2 style="font-size:36px;font-weight:900;margin:0 0 10px;color:#0f172a;">
+          BIM Video Library & Simulations
+        </h2>
+        <p style="color:#64748b;font-size:15px;margin:0;">
+          Step-by-step Revit modeling sessions, AutoCAD drafting, and Navisworks clash reports
+        </p>
+      </div>
+
+      <!-- Lock Notice -->
+      <div style="background:#ffffff;border:1px solid #e2e8f0;padding:8px 16px;border-radius:10px;display:flex;align-items:center;gap:8px;font-size:13px;color:#64748b;">
+        <span>🔒</span> Adding videos is managed by Admin
+      </div>
+    </div>
+
+    <!-- Video Tabs -->
+    <div style="display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:32px;overflow-x:auto;">
+      <button class="vtab-btn active" onclick="switchVideoCategory('revit',this)"       style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:700;color:#2563eb;border-bottom:3px solid #2563eb;margin-bottom:-2px;white-space:nowrap;">Revit Structure</button>
+      <button class="vtab-btn"        onclick="switchVideoCategory('autocad',this)"     style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">AutoCAD Drafting</button>
+      <button class="vtab-btn"        onclick="switchVideoCategory('coordination',this)" style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">BIM Coordination</button>
+      <button class="vtab-btn"        onclick="switchVideoCategory('navisworks',this)"   style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">Navisworks</button>
+      <button class="vtab-btn"        onclick="switchVideoCategory('all_sims',this)"    style="background:none;border:none;padding:12px 24px;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;white-space:nowrap;">📺 All Simulations</button>
+    </div>
+
+    <div id="video-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:24px;">
+      <!-- Populated via JS -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────
+     4. PRICING & ENROLLMENT PLANS
+───────────────────────────────────────── -->
+<section id="section-pricing" style="display:none;background:#f8fafc;padding:64px 24px;min-height:80vh;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:52px;">
+      <div style="color:#2563eb;font-size:12px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">
+        MEMBERSHIP OPTIONS
+      </div>
+      <h2 style="font-size:38px;font-weight:900;margin:0 0 12px;color:#0f172a;">
+        Flexible Training Plans
+      </h2>
+      <p style="color:#64748b;font-size:16px;max-width:560px;margin:0 auto;">
+        Choose individual course purchases or subscribe for full access to all materials and practice files.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;align-items:start;">
+      <!-- Starter -->
+      <div class="pricing-card" style="padding:34px;">
+        <div style="font-size:13px;font-weight:800;color:#64748b;margin-bottom:8px;letter-spacing:0.06em;">STARTER ACCESS</div>
+        <div style="font-size:44px;font-weight:900;color:#0f172a;">$0 <span style="font-size:16px;font-weight:500;color:#64748b;">/month</span></div>
+        <p style="color:#64748b;font-size:14px;margin:12px 0 24px;">Explore basic BIM tutorials and free video previews.</p>
+        <button onclick="openModal('register')" style="width:100%;background:#f1f5f9;border:1.5px solid #cbd5e1;color:#0f172a;padding:12px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:24px;">Start Learning Free</button>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;">
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> 5 Free Preview Lessons</div>
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> YouTube Video Library Access</div>
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> Community Discussions</div>
+          <div style="color:#94a3b8;"><span>✗</span> Downloadable RVT/DWG Files</div>
+          <div style="color:#94a3b8;"><span>✗</span> Certified Credentials</div>
+        </div>
+      </div>
+
+      <!-- Professional (Popular) -->
+      <div class="pricing-card pricing-featured" style="padding:34px;box-shadow:0 18px 45px rgba(37,99,235,0.18);">
+        <div style="font-size:13px;font-weight:800;color:#2563eb;margin-bottom:8px;letter-spacing:0.06em;">PROFESSIONAL PRO</div>
+        <div style="font-size:44px;font-weight:900;color:#0f172a;">$49 <span style="font-size:16px;font-weight:500;color:#64748b;">/month</span></div>
+        <p style="color:#64748b;font-size:14px;margin:12px 0 24px;">Complete BIM library for coordinators & modelers.</p>
+        <button onclick="openModal('purchase','pro-monthly')" style="width:100%;background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:13px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:24px;box-shadow:0 6px 20px rgba(37,99,235,0.45);">Subscribe with Pro Access</button>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;">
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> All 12+ Courses Included</div>
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> Full RVT, DWG & NWD Practice Files</div>
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> Step-by-Step Modeling Walkthroughs</div>
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> Official BIM Certification</div>
+          <div><span style="color:#22c55e;font-weight:800;">✓</span> Priority Instructor Support</div>
+        </div>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card" style="padding:34px;background:#0f172a;color:white;border-color:#1e293b;">
+        <div style="font-size:13px;font-weight:800;color:#38bdf8;margin-bottom:8px;letter-spacing:0.06em;">ENGINEERING TEAM</div>
+        <div style="font-size:44px;font-weight:900;">$199 <span style="font-size:16px;font-weight:400;color:#94a3b8;">/month</span></div>
+        <p style="color:#94a3b8;font-size:14px;margin:12px 0 24px;">For entire BIM modeling teams & AEC firms.</p>
+        <button onclick="openModal('purchase','enterprise')" style="width:100%;background:white;color:#0f172a;border:none;padding:12px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:24px;">Enroll Team</button>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;">
+          <div><span style="color:#4ade80;font-weight:800;">✓</span> Up to 20 Team Seats</div>
+          <div><span style="color:#4ade80;font-weight:800;">✓</span> Team Progress Tracking Dashboard</div>
+          <div><span style="color:#4ade80;font-weight:800;">✓</span> Weekly Live Coordination Mentoring</div>
+          <div><span style="color:#4ade80;font-weight:800;">✓</span> Custom Training Modules</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────
+     5. 🔒 ADMIN CONTROL & UPLOAD PANEL
+───────────────────────────────────────── -->
+<section id="section-upload" style="display:none;background:#f8fafc;padding:60px 24px;min-height:85vh;">
+  <div style="max-width:980px;margin:0 auto;">
+    <!-- Top Admin Header -->
+    <div style="display:flex;justify-content:space-between;align-items:center;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;padding:24px 30px;margin-bottom:32px;box-shadow:0 4px 20px rgba(0,0,0,0.04);flex-wrap:wrap;gap:16px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+          <span class="admin-pill">
+            <span style="width:7px;height:7px;background:#4ade80;border-radius:50%;"></span>
+            Admin Mode Active
+          </span>
+          <span style="color:#64748b;font-size:13px;">• Session Protected</span>
+        </div>
+        <h2 style="font-size:26px;font-weight:900;color:#0f172a;margin:0;">
+          Content Management & Uploads
+        </h2>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button onclick="changeAdminPasswordPrompt()" style="background:#f1f5f9;border:1px solid #cbd5e1;color:#334155;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">
+          🔑 Change Password
+        </button>
+        <button onclick="lockAdminSession()" style="background:#fee2e2;border:1px solid #fca5a5;color:#b91c1c;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">
+          🔒 Lock Admin
+        </button>
+      </div>
+    </div>
+
+    <!-- Upload Tabs -->
+    <div style="display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;">
+      <button onclick="switchAdminUploadTab('video')"   id="atab-video"   style="background:#2563eb;color:white;border:none;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🎬 Add Video / YouTube</button>
+      <button onclick="switchAdminUploadTab('course')"  id="atab-course"  style="background:white;border:1.5px solid #e2e8f0;color:#334155;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📚 Create New Course</button>
+      <button onclick="switchAdminUploadTab('files')"   id="atab-files"   style="background:white;border:1.5px solid #e2e8f0;color:#334155;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📁 Upload Practice Files</button>
+    </div>
+
+    <!-- TAB 1: ADD VIDEO / YOUTUBE SIMULATION -->
+    <div id="admin-panel-video" style="background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;padding:34px;box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <h3 style="font-size:20px;font-weight:900;color:#0f172a;margin:0 0 8px;">Upload or Embed Training Video</h3>
+      <p style="color:#64748b;font-size:14px;margin:0 0 24px;">Publish Revit, AutoCAD or BIM coordination simulation videos to the student library.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Video Title *</label>
+          <input id="new-video-title" type="text" placeholder="e.g. Revit Concrete Slab & Rebar Detailing" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">YouTube URL or Video ID *</label>
+          <input id="new-video-url" type="text" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Target Category *</label>
+          <select id="new-video-cat" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;background:white;">
+            <option value="revit">Revit Structure</option>
+            <option value="autocad">AutoCAD Drafting</option>
+            <option value="coordination">BIM Coordination</option>
+            <option value="navisworks">Navisworks</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Duration (e.g. 35:20)</label>
+          <input id="new-video-duration" type="text" placeholder="28:45" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Access Permission</label>
+          <select id="new-video-access" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;background:white;">
+            <option value="free">🆓 Free Demonstration</option>
+            <option value="paid">🔒 Paid Students Only</option>
+          </select>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Description & Key Topics</label>
+          <textarea id="new-video-desc" rows="3" placeholder="Explain what modeling techniques are covered in this demonstration..." style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;resize:vertical;"></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;">
+        <button onclick="adminPublishVideo()" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(37,99,235,0.4);">
+          🚀 Publish Video to Library
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 2: CREATE NEW COURSE -->
+    <div id="admin-panel-course" style="display:none;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;padding:34px;box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <h3 style="font-size:20px;font-weight:900;color:#0f172a;margin:0 0 8px;">Create New BIM Training Course</h3>
+      <p style="color:#64748b;font-size:14px;margin:0 0 24px;">Publish a complete new training course with pricing and lessons count.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Course Title *</label>
+          <input id="new-course-title" type="text" placeholder="e.g. Advanced Dynamo Scripting for Revit" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Category *</label>
+          <select id="new-course-cat" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;background:white;">
+            <option value="coordination">BIM Coordination</option>
+            <option value="revit">Revit</option>
+            <option value="autocad">AutoCAD</option>
+            <option value="navisworks">Navisworks</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Difficulty Level</label>
+          <select id="new-course-level" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;background:white;">
+            <option value="Advanced">Advanced</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Beginner">Beginner</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Price ($USD) *</label>
+          <input id="new-course-price" type="number" placeholder="129" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Total Lessons & Duration</label>
+          <input id="new-course-lessons" type="text" placeholder="24 lessons • 16 hours" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Short Description</label>
+          <textarea id="new-course-desc" rows="3" placeholder="Summary of what the student will master..." style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;resize:vertical;"></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;">
+        <button onclick="adminPublishCourse()" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(37,99,235,0.4);">
+          ✨ Publish Course to Catalog
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 3: PRACTICE FILES UPLOAD -->
+    <div id="admin-panel-files" style="display:none;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;padding:34px;box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <h3 style="font-size:20px;font-weight:900;color:#0f172a;margin:0 0 8px;">Upload Practice Assets (RVT, DWG, NWD)</h3>
+      <p style="color:#64748b;font-size:14px;margin:0 0 24px;">Upload practice modeling files, drawing sets, and ISO standards documents.</p>
+
+      <div class="drop-zone" onclick="document.getElementById('admin-file-picker').click()" style="border:2px dashed #cbd5e1;border-radius:16px;padding:48px 24px;text-align:center;margin-bottom:24px;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#2563eb'" onmouseout="this.style.borderColor='#cbd5e1'">
+        <div style="font-size:48px;margin-bottom:12px;">📁</div>
+        <div style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:4px;">Drag and drop Revit & AutoCAD files</div>
+        <div style="font-size:13px;color:#64748b;margin-bottom:14px;">Supports .RVT, .DWG, .NWD, .IFC, .PDF, .ZIP up to 1GB</div>
+        <button style="background:#2563eb;color:white;border:none;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">Select Local Files</button>
+        <input id="admin-file-picker" type="file" multiple style="display:none;" onchange="showToast('📁 '+this.files.length+' file(s) attached successfully!','#2563eb')" />
+      </div>
+
+      <button onclick="showToast('✅ Practice package uploaded and linked to course files!','#22c55e')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;float:right;">
+        💾 Save Files to Cloud
+      </button>
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- End app-root -->
+
+
+<!-- ══════════════════════════════════════════
+     POPUP MODALS (LOGIN, REGISTER, PURCHASE, VIDEO)
+══════════════════════════════════════════ -->
+<div id="modal-container" style="display:none;" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  
+  <!-- MODAL: LOGIN -->
+  <div id="modal-login" class="modal-box" style="display:none;">
+    <button onclick="closeModal()" style="position:absolute;top:18px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;">✕</button>
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:38px;margin-bottom:8px;">🏗️</div>
+      <h3 style="font-size:24px;font-weight:900;margin:0 0 6px;color:#0f172a;">Student Login</h3>
+      <p style="color:#64748b;font-size:14px;margin:0;">Sign in to resume your BIM video lessons</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div>
+        <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Email Address</label>
+        <input type="email" placeholder="your@email.com" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+      </div>
+      <div>
+        <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Password</label>
+        <input type="password" placeholder="••••••••" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+      </div>
+      <button onclick="showToast('✅ Logged in successfully!','#22c55e');closeModal();" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px;">
+        Sign In
+      </button>
+      <p style="text-align:center;font-size:13px;color:#64748b;margin:6px 0 0;">
+        Don't have an account? <button onclick="openModal('register')" style="background:none;border:none;color:#2563eb;font-weight:800;cursor:pointer;font-size:13px;">Create Free Account</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTER -->
+  <div id="modal-register" class="modal-box" style="display:none;">
+    <button onclick="closeModal()" style="position:absolute;top:18px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;">✕</button>
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:38px;margin-bottom:8px;">🎓</div>
+      <h3 style="font-size:24px;font-weight:900;margin:0 0 6px;color:#0f172a;">Join BSD BIM Center</h3>
+      <p style="color:#64748b;font-size:14px;margin:0;">Create your free account to access free video lessons</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">First Name</label>
+          <input type="text" placeholder="John" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Last Name</label>
+          <input type="text" placeholder="Doe" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Email Address</label>
+        <input type="email" placeholder="your@email.com" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+      </div>
+      <div>
+        <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Current Role</label>
+        <select style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;background:white;">
+          <option>BIM Coordinator</option>
+          <option>Structural Modeler</option>
+          <option>AutoCAD Draftsman</option>
+          <option>BIM Manager / Project Lead</option>
+          <option>Engineering Student</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px;">Password</label>
+        <input type="password" placeholder="••••••••" style="width:100%;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box;"/>
+      </div>
+      <button onclick="showToast('🎉 Welcome! Account created successfully.','#22c55e');closeModal();" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px;">
+        Create Account Free
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: PURCHASE ENROLLMENT -->
+  <div id="modal-purchase" class="modal-box" style="display:none;">
+    <button onclick="closeModal()" style="position:absolute;top:18px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;">✕</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:38px;margin-bottom:6px;">🛒</div>
+      <h3 style="font-size:22px;font-weight:900;color:#0f172a;margin:0 0 4px;" id="purchase-title">Course Checkout</h3>
+      <p style="color:#64748b;font-size:14px;margin:0;">Instant access & downloadable practice files</p>
+    </div>
+
+    <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:16px;margin-bottom:18px;">
+      <div style="font-size:11px;font-weight:800;color:#64748b;letter-spacing:0.08em;margin-bottom:8px;">ORDER DETAILS</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:14px;font-weight:600;color:#0f172a;" id="purchase-item-name">BIM Coordination Mastery</span>
+        <span style="font-size:15px;font-weight:800;color:#2563eb;" id="purchase-item-price">$149</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid #e2e8f0;">
+        <span style="font-size:15px;font-weight:800;color:#0f172a;">Total Billed</span>
+        <span style="font-size:22px;font-weight:900;color:#2563eb;" id="purchase-total-price">$149</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px;">Cardholder Name</label>
+        <input type="text" placeholder="John Doe" style="width:100%;padding:10px 12px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px;">Card Number</label>
+        <input type="text" placeholder="4242 •••• •••• 4242" maxlength="19" style="width:100%;padding:10px 12px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px;">Expires (MM/YY)</label>
+          <input type="text" placeholder="12/28" maxlength="5" style="width:100%;padding:10px 12px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px;">CVC</label>
+          <input type="text" placeholder="888" maxlength="3" style="width:100%;padding:10px 12px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:14px;box-sizing:border-box;"/>
+        </div>
+      </div>
+      <button onclick="finishCheckout()" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px;box-shadow:0 6px 20px rgba(37,99,235,0.45);">
+        🔒 Complete Payment
+      </button>
+      <div style="display:flex;justify-content:center;gap:14px;color:#64748b;font-size:11px;margin-top:2px;">
+        <span>🔒 256-bit SSL</span>
+        <span>💳 Visa / MC / AmEx</span>
+        <span>↩️ 30-Day Guarantee</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VIDEO PLAYER -->
+  <div id="modal-video" class="modal-box" style="display:none;max-width:820px;padding:24px;">
+    <button onclick="closeModal()" style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:24px;cursor:pointer;color:#64748b;z-index:10;">✕</button>
+    <h3 id="vmodal-title" style="font-size:18px;font-weight:900;color:#0f172a;margin:0 0 16px;padding-right:32px;">Demonstration Video</h3>
+    <div class="yt-frame" id="vmodal-player"></div>
+    <p id="vmodal-desc" style="color:#64748b;font-size:14px;line-height:1.6;margin:16px 0 0;"></p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<div class="neon-divider"></div>
+<footer style="background:#030712;color:#64748b;padding:60px 24px 28px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;flex-wrap:wrap;">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#06b6d4);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <span style="color:#ffffff;font-weight:900;font-size:16px;">BSD BIM Training Center</span>
+        </div>
+        <p style="font-size:13.5px;line-height:1.7;color:#94a3b8;max-width:280px;margin:0 0 16px;">
+          Empowering engineers and technicians with practical BIM modeling and clash coordination mastery.
+        </p>
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);border-radius:8px;color:#38bdf8;font-size:12px;font-weight:700;">
+          <span>🏗️</span> ISO 19650 BIM Standards
+        </div>
+      </div>
+
+      <div>
+        <div style="color:#ffffff;font-weight:800;font-size:14px;margin-bottom:16px;">Courses</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+          <a href="javascript:void(0)" onclick="showSection('courses')" style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">BIM Coordination</a>
+          <a href="javascript:void(0)" onclick="showSection('courses')" style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">Revit Structure</a>
+          <a href="javascript:void(0)" onclick="showSection('courses')" style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">AutoCAD 2D/3D</a>
+          <a href="javascript:void(0)" onclick="showSection('courses')" style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">Navisworks Clash</a>
+        </div>
+      </div>
+
+      <div>
+        <div style="color:#ffffff;font-weight:800;font-size:14px;margin-bottom:16px;">Quick Access</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+          <a href="javascript:void(0)" onclick="showSection('videos')"  style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">Video Demonstrations</a>
+          <a href="javascript:void(0)" onclick="showSection('pricing')" style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">Pricing Plans</a>
+          <a href="javascript:void(0)" onclick="openAdminUpload()"     style="color:#38bdf8;text-decoration:none;font-weight:700;">🔒 Admin Upload Lock</a>
+          <a href="javascript:void(0)" onclick="openModal('register')"  style="color:#94a3b8;text-decoration:none;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">Create Free Account</a>
+        </div>
+      </div>
+
+      <div>
+        <div style="color:#ffffff;font-weight:800;font-size:14px;margin-bottom:16px;">Training Support</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:#94a3b8;">
+          <span>📧 contact@bsd-bim.com</span>
+          <span>🌐 github.com/bsdeng11-spec</span>
+          <span>💬 Instructor Live Chat</span>
+          <span>🕒 Mon – Fri (9 AM - 6 PM)</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;">
+      <div>© 2026 BSD BIM Training Center. All rights reserved.</div>
       <div style="display:flex;gap:20px;">
-        <a href="#" style="color:#475569;font-size:13px;text-decoration:none;">Privacy Policy</a>
-        <a href="#" style="color:#475569;font-size:13px;text-decoration:none;">Terms of Service</a>
-        <a href="#" style="color:#475569;font-size:13px;text-decoration:none;">Refund Policy</a>
+        <span style="color:#64748b;">BIM Coordination & Advanced Workflows</span>
       </div>
     </div>
   </div>
 </footer>
 
 
-<!-- ═══════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     CORE APPLICATION JAVASCRIPT
+══════════════════════════════════════════ -->
 <script>
-// ── Data ──────────────────────────────────────
-const COURSES = [
-  { id:'bim-coord', cat:'coordination', title:'BIM Coordination & Advanced Workflows', desc:'Clash detection, federated models, BCF workflows, coordination meetings, and Navisworks integration.', color:'linear-gradient(135deg,#1a3a5c,#0d6efd)', icon:'🏗️', level:'Advanced', price:149, original:299, rating:4.9, reviews:142, duration:'28 hours', lessons:46, badge:'⭐ FLAGSHIP', files:true },
-  { id:'revit-struct', cat:'revit', title:'Revit Structure Modeling Mastery', desc:'Foundations, framing systems, rebar detailing, structural families, schedules and documentation.', color:'linear-gradient(135deg,#1e4d2b,#16a34a)', icon:'🔩', level:'Intermediate', price:119, original:249, rating:4.8, reviews:98, duration:'22 hours', lessons:38, badge:'', files:true },
-  { id:'autocad-2d', cat:'autocad', title:'AutoCAD 2D/3D for BIM Professionals', desc:'Complete 2D drafting, 3D modeling, annotation, sheet sets, and CAD-to-Revit workflows.', color:'linear-gradient(135deg,#4a1d96,#7c3aed)', icon:'✏️', level:'Beginner', price:89, original:179, rating:4.7, reviews:76, duration:'18 hours', lessons:30, badge:'', files:true },
-  { id:'navisworks', cat:'navisworks', title:'Navisworks Clash Detection & Review', desc:'Federated model setup, clash tests, clash batching, BCF export, and timeliner.', color:'linear-gradient(135deg,#7c2d12,#ea580c)', icon:'🔍', level:'Intermediate', price:109, original:219, rating:4.8, reviews:64, duration:'14 hours', lessons:24, badge:'', files:true },
-  { id:'revit-mep', cat:'revit', title:'Revit MEP Systems Modeling', desc:'Mechanical, electrical, and plumbing systems in Revit for coordination-ready models.', color:'linear-gradient(135deg,#0f766e,#14b8a6)', icon:'⚡', level:'Intermediate', price:119, original:249, rating:4.6, reviews:52, duration:'20 hours', lessons:34, badge:'', files:false },
-  { id:'bim-management', cat:'coordination', title:'BIM Management & ISO 19650', desc:'BIM Execution Plans, ISO 19650 compliance, CDE setup, and team coordination protocols.', color:'linear-gradient(135deg,#1e3a5f,#2563eb)', icon:'📋', level:'Advanced', price:139, original:279, rating:4.9, reviews:48, duration:'16 hours', lessons:28, badge:'🆕 NEW', files:true },
-  { id:'revit-families', cat:'revit', title:'Revit Custom Family Creation', desc:'Build parametric structural, architectural, and MEP families from scratch.', color:'linear-gradient(135deg,#064e3b,#10b981)', icon:'🧩', level:'Advanced', price:99, original:199, rating:4.7, reviews:71, duration:'12 hours', lessons:22, badge:'', files:true },
-  { id:'civil-bim', cat:'coordination', title:'Civil & Infrastructure BIM', desc:'Revit and InfraWorks workflows for bridges, roads, and site models in BIM coordination.', color:'linear-gradient(135deg,#312e81,#6366f1)', icon:'🌉', level:'Intermediate', price:119, original:239, rating:4.5, reviews:33, duration:'18 hours', lessons:30, badge:'', files:false },
+/* ─────────────────────────────────────────
+   1. ADMIN PASSWORD AUTHENTICATION ENGINE
+───────────────────────────────────────── */
+const STORAGE_KEY_PASS = 'BSD_ADMIN_PASS';
+const STORAGE_KEY_AUTH = 'BSD_ADMIN_IS_AUTH';
+const STORAGE_KEY_COURSES = 'BSD_CUSTOM_COURSES';
+const STORAGE_KEY_VIDEOS = 'BSD_CUSTOM_VIDEOS';
+
+function getAdminPassword() {
+  return localStorage.getItem(STORAGE_KEY_PASS) || 'BSD@Admin2026';
+}
+
+function isAdminAuthenticated() {
+  return sessionStorage.getItem(STORAGE_KEY_AUTH) === 'true';
+}
+
+function openAdminUpload() {
+  if (isAdminAuthenticated()) {
+    showSection('upload');
+  } else {
+    const lockScreen = document.getElementById('admin-lock-screen');
+    lockScreen.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      const input = document.getElementById('admin-pass-input');
+      input.value = '';
+      input.focus();
+    }, 150);
+  }
+}
+
+function checkAdminPassword() {
+  const input = document.getElementById('admin-pass-input');
+  const entered = input.value.trim();
+  const validPass = getAdminPassword();
+
+  if (entered === validPass) {
+    sessionStorage.setItem(STORAGE_KEY_AUTH, 'true');
+    document.getElementById('admin-lock-screen').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('admin-badge-indicator').style.display = 'inline-flex';
+    input.value = '';
+    showSection('upload');
+    showToast('🔓 Admin access authenticated successfully!', '#22c55e');
+  } else {
+    input.classList.add('error');
+    document.getElementById('pass-error-msg').style.display = 'block';
+    setTimeout(() => input.classList.remove('error'), 450);
+    input.select();
+  }
+}
+
+function closeAdminLock() {
+  document.getElementById('admin-lock-screen').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('pass-error-msg').style.display = 'none';
+}
+
+function lockAdminSession() {
+  sessionStorage.removeItem(STORAGE_KEY_AUTH);
+  document.getElementById('admin-badge-indicator').style.display = 'none';
+  showSection('home');
+  showToast('🔒 Admin session locked safely', '#f59e0b');
+}
+
+function changeAdminPasswordPrompt() {
+  const current = prompt('Enter CURRENT Admin Password:');
+  if (current !== getAdminPassword()) {
+    alert('❌ Incorrect current password!');
+    return;
+  }
+  const newPass = prompt('Enter NEW Admin Password (min 6 chars):');
+  if (newPass && newPass.length >= 6) {
+    localStorage.setItem(STORAGE_KEY_PASS, newPass);
+    showToast('🔑 Admin password updated successfully!', '#22c55e');
+  } else {
+    alert('Password must be at least 6 characters long.');
+  }
+}
+
+
+/* ─────────────────────────────────────────
+   2. DATA STORE: COURSES & SIMULATIONS
+───────────────────────────────────────── */
+const DEFAULT_COURSES = [
+  { id:'bim-coord', cat:'coordination', title:'BIM Coordination & Advanced Workflows', desc:'Clash detection, federated models, BCF communication, Navisworks clash batches and coordination meetings.', color:'linear-gradient(135deg,#0f172a,#2563eb)', icon:'🏗️', level:'Advanced', price:149, original:299, rating:4.9, reviews:142, duration:'28 hrs', lessons:46, badge:'⭐ FLAGSHIP' },
+  { id:'revit-struct', cat:'revit', title:'Revit Structure Modeling Mastery', desc:'Concrete foundations, steel framing, rebar detailing, structural family parameters and full documentation.', color:'linear-gradient(135deg,#064e3b,#16a34a)', icon:'🔩', level:'Intermediate', price:119, original:249, rating:4.8, reviews:98, duration:'22 hrs', lessons:38, badge:'' },
+  { id:'autocad-2d', cat:'autocad', title:'AutoCAD 2D/3D for BIM Professionals', desc:'Complete 2D drafting, structural layouts, 3D modeling, sheet sets and seamless CAD-to-Revit imports.', color:'linear-gradient(135deg,#4c1d95,#7c3aed)', icon:'✏️', level:'Beginner', price:89, original:179, rating:4.7, reviews:76, duration:'18 hrs', lessons:30, badge:'' },
+  { id:'navisworks', cat:'navisworks', title:'Navisworks Clash Detection & Review', desc:'Federated NWD/NWC setup, clash rules, tolerance matrices, issue batching and BCF export.', color:'linear-gradient(135deg,#7c2d12,#ea580c)', icon:'🔍', level:'Intermediate', price:109, original:219, rating:4.8, reviews:64, duration:'14 hrs', lessons:24, badge:'' },
+  { id:'revit-mep', cat:'revit', title:'Revit MEP Systems Coordination', desc:'Mechanical ductwork, plumbing piping and electrical containment models for clash-free designs.', color:'linear-gradient(135deg,#134e4a,#0d9488)', icon:'⚡', level:'Intermediate', price:119, original:249, rating:4.6, reviews:52, duration:'20 hrs', lessons:34, badge:'' },
+  { id:'bim-iso', cat:'coordination', title:'BIM Management & ISO 19650 Execution', desc:'BEP execution plans, Common Data Environment (CDE) protocols, and multi-team BIM delivery.', color:'linear-gradient(135deg,#1e3a8a,#3b82f6)', icon:'📋', level:'Advanced', price:139, original:279, rating:4.9, reviews:48, duration:'16 hrs', lessons:28, badge:'🆕 NEW' }
 ];
 
-const VIDEOS = {
-  revit: [
-    { id:'rvt1', title:'Revit Structural Framing – Full Walkthrough', desc:'Complete framing from columns to beams and slabs on a live project.', ytId:'dQw4w9WgXcQ', duration:'45:22' },
-    { id:'rvt2', title:'Revit Rebar & Detailing Deep Dive', desc:'Placing rebar, area reinforcement, stirrups, and creating rebar schedules.', ytId:'dQw4w9WgXcQ', duration:'32:10' },
-    { id:'rvt3', title:'Revit Structural Wall Modeling', desc:'Concrete walls, foundations walls, openings, and connection families.', ytId:'dQw4w9WgXcQ', duration:'28:45' },
-    { id:'rvt4', title:'Sheet Setup & Drawing Documentation in Revit', desc:'Title blocks, viewports, revision clouds, and sheet list management.', ytId:'dQw4w9WgXcQ', duration:'22:33' },
-  ],
-  autocad: [
-    { id:'cad1', title:'AutoCAD 2D Drafting for Structural Plans', desc:'Grids, annotations, dimensions, sections and details for structural drawings.', ytId:'dQw4w9WgXcQ', duration:'38:15' },
-    { id:'cad2', title:'AutoCAD 3D to Revit Import Workflow', desc:'Cleaning CAD files, linking, and converting geometry to BIM elements.', ytId:'dQw4w9WgXcQ', duration:'25:50' },
-    { id:'cad3', title:'Sheet Sets and Title Block Automation', desc:'Automate drawing production with sheet sets, fields, and data extraction.', ytId:'dQw4w9WgXcQ', duration:'19:40' },
-  ],
-  coord: [
-    { id:'co1', title:'Federated Model Setup in Navisworks', desc:'Combining Revit, IFC, and CAD models for clash detection coordination.', ytId:'dQw4w9WgXcQ', duration:'41:10' },
-    { id:'co2', title:'BIM Coordination Meeting Workflow', desc:'Running a coordination meeting: clash reports, BCF export, and issue tracking.', ytId:'dQw4w9WgXcQ', duration:'35:20' },
-    { id:'co3', title:'BCF File Exchange Between Disciplines', desc:'Using BCF files between Revit, Navisworks, and web-based tools.', ytId:'dQw4w9WgXcQ', duration:'22:05' },
-  ],
-  navis: [
-    { id:'nav1', title:'Navisworks Clash Detection Setup', desc:'Creating clash tests, tolerance settings, and batching rules for large models.', ytId:'dQw4w9WgXcQ', duration:'30:45' },
-    { id:'nav2', title:'Clash Result Review & BCF Export', desc:'Reviewing clash results, grouping, assigning to disciplines, and exporting BCF.', ytId:'dQw4w9WgXcQ', duration:'26:18' },
-  ],
-};
+const DEFAULT_VIDEOS = [
+  { id:'rvt1', cat:'revit', title:'Revit Structural Framing – Full Walkthrough', desc:'Live project walkthrough: modeling concrete columns, beams and continuous slabs.', ytId:'dQw4w9WgXcQ', duration:'45:20' },
+  { id:'rvt2', cat:'revit', title:'Revit Rebar Detailing & Schedules Deep Dive', desc:'Placing rebar shape codes, area reinforcement, stirrup hooks, and automatic schedules.', ytId:'dQw4w9WgXcQ', duration:'32:15' },
+  { id:'cad1', cat:'autocad', title:'AutoCAD 2D Structural Plan Drafting', desc:'Setting grids, dimension annotations, section markers and dynamic blocks.', ytId:'dQw4w9WgXcQ', duration:'38:10' },
+  { id:'cad2', cat:'autocad', title:'AutoCAD 3D to Revit Geometry Linking', desc:'Cleaning CAD geometry, zero origin alignment, and Revit convert workflow.', ytId:'dQw4w9WgXcQ', duration:'25:40' },
+  { id:'co1',  cat:'coordination', title:'Navisworks Clash Matrix & Federated Setup', desc:'Combining Architectural, Structural and MEP models for clash tests.', ytId:'dQw4w9WgXcQ', duration:'41:10' },
+  { id:'co2',  cat:'coordination', title:'BIM Coordination Meeting & BCF Reporting', desc:'Running coordination meetings, assigning clash owners and exporting BCF zip.', ytId:'dQw4w9WgXcQ', duration:'35:20' },
+  { id:'nav1', cat:'navisworks', title:'Clash Detective Setup & Tolerance Rules', desc:'Configuring soft and hard clashes with customized clearance tolerances.', ytId:'dQw4w9WgXcQ', duration:'30:45' }
+];
 
-// User-added YouTube videos
-let userYtVideos = { revit: [], autocad: [], coord: [], navis: [] };
-
-// ── Navigation ────────────────────────────────
-function showSection(name) {
-  const sections = ['home','courses','videos','pricing','upload'];
-  sections.forEach(s => {
-    const el = document.getElementById('section-' + s);
-    if(el) el.style.display = (s === name) ? '' : 'none';
-  });
-  // Nav highlight
-  sections.forEach(s => {
-    const btn = document.getElementById('nav-' + s);
-    if(btn) {
-      btn.style.color = (s === name) ? '#60a5fa' : '#cbd5e1';
-    }
-  });
-  // Init sections
-  if(name === 'courses') renderCourses('all');
-  if(name === 'videos') renderVideos('revit');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function getAllCourses() {
+  const custom = JSON.parse(localStorage.getItem(STORAGE_KEY_COURSES) || '[]');
+  return [...DEFAULT_COURSES, ...custom];
 }
 
-// ── Courses ───────────────────────────────────
-function renderCourses(cat) {
-  const grid = document.getElementById('courses-grid');
-  const filtered = cat === 'all' ? COURSES : COURSES.filter(c => c.cat === cat);
-  grid.innerHTML = filtered.map(c => `
-    <div class="course-card" onclick="openCourse('${c.id}')" style="background:var(--card,white);border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid var(--border,#e2e8f0);">
-      <div style="background:${c.color};height:130px;display:flex;align-items:center;justify-content:center;position:relative;">
-        <span style="font-size:48px;">${c.icon}</span>
-        ${c.badge ? `<span style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.4);color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;">${c.badge}</span>` : ''}
-      </div>
-      <div style="padding:18px;">
-        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-          <span class="badge" style="background:#dbeafe;color:#1d4ed8;">${c.cat === 'coordination' ? 'BIM Coord' : c.cat === 'revit' ? 'Revit' : c.cat === 'autocad' ? 'AutoCAD' : 'Navisworks'}</span>
-          <span class="badge" style="background:${c.level==='Advanced'?'#fee2e2':c.level==='Intermediate'?'#fef9c3':'#dcfce7'};color:${c.level==='Advanced'?'#b91c1c':c.level==='Intermediate'?'#a16207':'#15803d'};">${c.level}</span>
-        </div>
-        <h3 style="font-size:15px;font-weight:800;margin:0 0 8px;line-height:1.3;">${c.title}</h3>
-        <p style="color:var(--muted-foreground,#64748b);font-size:12px;line-height:1.5;margin-bottom:10px;">${c.desc}</p>
-        <div style="display:flex;gap:12px;font-size:12px;color:#64748b;margin-bottom:10px;">
-          <span>📹 ${c.lessons} lessons</span>
-          <span>⏱ ${c.duration}</span>
-          ${c.files ? '<span>📁 Files incl.</span>' : ''}
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
-          <span class="star" style="font-size:13px;">★</span>
-          <span style="font-size:13px;font-weight:700;">${c.rating}</span>
-          <span style="font-size:12px;color:#64748b;">(${c.reviews})</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div>
-            <span style="font-size:20px;font-weight:900;color:#0d6efd;">\$${c.price}</span>
-            <span style="font-size:12px;color:var(--muted-foreground,#64748b);text-decoration:line-through;margin-left:6px;">\$${c.original}</span>
-          </div>
-          <button onclick="event.stopPropagation();openModal('purchase','${c.id}')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">Enroll</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+function getAllVideos() {
+  const custom = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
+  return [...DEFAULT_VIDEOS, ...custom];
 }
 
-function filterCourses(cat) {
-  const buttons = ['all','coordination','revit','autocad','navisworks'];
-  buttons.forEach(b => {
-    const btn = document.getElementById('filter-' + b);
-    if(btn) {
-      if(b === cat) {
-        btn.style.background = '#0d6efd';
-        btn.style.color = 'white';
-        btn.style.border = 'none';
-      } else {
-        btn.style.background = 'var(--card,white)';
-        btn.style.color = 'var(--foreground,#1e293b)';
-        btn.style.border = '1px solid var(--border,#e2e8f0)';
-      }
-    }
-  });
-  renderCourses(cat);
-}
-
-function openCourse(id) {
-  const c = COURSES.find(x => x.id === id);
-  if(!c) return;
-  const content = document.getElementById('course-modal-content');
-  content.innerHTML = `
-    <div style="background:${c.color};border-radius:12px;padding:32px;text-align:center;margin-bottom:20px;">
-      <span style="font-size:56px;">${c.icon}</span>
-      <h2 style="color:white;font-size:20px;font-weight:900;margin:12px 0 4px;">${c.title}</h2>
-      <p style="color:rgba(255,255,255,0.8);font-size:14px;">${c.desc}</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
-      <div style="background:var(--background,#f8fafc);border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:22px;font-weight:900;color:#0d6efd;">${c.lessons}</div>
-        <div style="font-size:12px;color:#64748b;">Video Lessons</div>
-      </div>
-      <div style="background:var(--background,#f8fafc);border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:22px;font-weight:900;color:#0d6efd;">${c.duration}</div>
-        <div style="font-size:12px;color:#64748b;">Total Content</div>
-      </div>
-      <div style="background:var(--background,#f8fafc);border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:22px;font-weight:900;color:#f59e0b;">${c.rating} ★</div>
-        <div style="font-size:12px;color:#64748b;">${c.reviews} Reviews</div>
-      </div>
-      <div style="background:var(--background,#f8fafc);border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:22px;font-weight:900;color:#22c55e;">♾️</div>
-        <div style="font-size:12px;color:#64748b;">Lifetime Access</div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;">
-      <div>
-        <span style="font-size:28px;font-weight:900;color:#0d6efd;">\$${c.price}</span>
-        <span style="font-size:14px;color:#64748b;text-decoration:line-through;margin-left:8px;">\$${c.original}</span>
-      </div>
-      <button onclick="openModal('purchase','${c.id}')" style="background:linear-gradient(135deg,#0d6efd,#0099cc);color:white;border:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(13,110,253,0.4);">🛒 Enroll Now</button>
-    </div>
-  `;
-  openModal('course');
-}
-
-// ── Videos ────────────────────────────────────
-let currentVideoTab = 'revit';
-
-function renderVideos(tab) {
-  currentVideoTab = tab;
-  const content = document.getElementById('video-content');
-  const ytMgr = document.getElementById('yt-manager');
-
-  if(tab === 'youtube') {
-    content.innerHTML = '';
-    ytMgr.style.display = '';
-    renderYtGallery();
-    return;
-  }
-  ytMgr.style.display = 'none';
-
-  const vids = [...(VIDEOS[tab] || []), ...(userYtVideos[tab] || [])];
-  content.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
-      ${vids.map(v => `
-        <div class="course-card" onclick="playVideo('${v.ytId}','${v.title}','${v.desc}')" style="background:var(--card,white);border-radius:12px;overflow:hidden;border:1px solid var(--border,#e2e8f0);box-shadow:0 4px 16px rgba(0,0,0,0.07);">
-          <div class="video-thumb" style="height:160px;background:linear-gradient(135deg,#0d1b2e,#1a3a5c);">
-            <img src="https://img.youtube.com/vi/${v.ytId}/mqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;opacity:0.7;" onerror="this.style.display='none'" />
-            <div class="play-btn">
-              <div style="width:52px;height:52px;background:rgba(255,255,255,0.95);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-                <span style="font-size:20px;margin-left:4px;">▶</span>
-              </div>
-            </div>
-          </div>
-          <div style="padding:14px;">
-            <h4 style="font-size:14px;font-weight:800;margin:0 0 6px;line-height:1.3;">${v.title}</h4>
-            <p style="font-size:12px;color:var(--muted-foreground,#64748b);margin:0 0 8px;line-height:1.4;">${v.desc}</p>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-size:12px;background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:999px;font-weight:600;">⏱ ${v.duration || 'YouTube'}</span>
-              <span style="font-size:12px;color:#64748b;">▶ Watch Now</span>
-            </div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-function switchVideoTab(tab, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.style.color = 'var(--muted-foreground,#64748b)';
-    b.style.borderBottom = 'none';
-    b.style.fontWeight = '600';
-  });
-  btn.style.color = '#0d6efd';
-  btn.style.borderBottom = '3px solid #0d6efd';
-  btn.style.fontWeight = '700';
-  renderVideos(tab);
-}
-
-function playVideo(ytId, title, desc) {
-  document.getElementById('video-modal-title').textContent = title;
-  document.getElementById('video-modal-desc').textContent = desc;
-  document.getElementById('video-modal-embed').innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;border-radius:10px;"></iframe>`;
-  openModal('video');
-}
-
-function addYouTubeVideo() {
-  const url = document.getElementById('yt-url-input').value.trim();
-  const title = document.getElementById('yt-title-input').value.trim();
-  const cat = document.getElementById('yt-cat-input').value;
-  if(!url || !title) { showToast('⚠️ Please fill in URL and title','#f59e0b'); return; }
-  const ytId = extractYtId(url);
-  if(!ytId) { showToast('⚠️ Invalid YouTube URL','#ef4444'); return; }
-  userYtVideos[cat].push({ id: 'yt_' + Date.now(), title, desc: 'Added from YouTube', ytId, duration: 'YouTube' });
-  document.getElementById('yt-url-input').value = '';
-  document.getElementById('yt-title-input').value = '';
-  renderYtGallery();
-  showToast('✅ Video added to library!','#22c55e');
-}
-
-function renderYtGallery() {
-  const gallery = document.getElementById('yt-gallery');
-  const all = [...userYtVideos.revit, ...userYtVideos.autocad, ...userYtVideos.coord, ...userYtVideos.navis];
-  if(all.length === 0) {
-    gallery.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted-foreground,#64748b);grid-column:1/-1;">No YouTube videos added yet. Use the form above to add your first video! 📺</div>`;
-    return;
-  }
-  gallery.innerHTML = all.map(v => `
-    <div class="course-card" onclick="playVideo('${v.ytId}','${v.title}','${v.desc}')" style="background:var(--card,white);border-radius:12px;overflow:hidden;border:1px solid var(--border,#e2e8f0);box-shadow:0 4px 16px rgba(0,0,0,0.07);">
-      <div class="video-thumb" style="height:160px;background:#0d1b2e;">
-        <img src="https://img.youtube.com/vi/${v.ytId}/mqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;opacity:0.8;" onerror="this.style.display='none'" />
-        <div class="play-btn"><div style="width:48px;height:48px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;"><span style="font-size:18px;margin-left:3px;">▶</span></div></div>
-      </div>
-      <div style="padding:12px;">
-        <h4 style="font-size:14px;font-weight:700;margin:0 0 4px;">${v.title}</h4>
-        <span style="font-size:12px;background:#fee2e2;color:#b91c1c;padding:2px 8px;border-radius:999px;font-weight:600;">📺 YouTube</span>
-      </div>
-    </div>
-  `).join('');
-}
-
-function extractYtId(url) {
+function extractYoutubeId(url) {
+  if (!url) return 'dQw4w9WgXcQ';
   const patterns = [
     /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
     /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
     /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
-    /^([a-zA-Z0-9_-]{11})$/,
+    /^([a-zA-Z0-9_-]{11})$/
   ];
-  for(const p of patterns) { const m = url.match(p); if(m) return m[1]; }
-  return null;
+  for (const p of patterns) {
+    const match = url.match(p);
+    if (match) return match[1];
+  }
+  return 'dQw4w9WgXcQ';
 }
 
-// ── Upload Tabs ───────────────────────────────
-function switchUploadTab(tab) {
-  const tabs = ['video','file','youtube','slide'];
-  tabs.forEach(t => {
-    document.getElementById('upload-' + t).style.display = t === tab ? '' : 'none';
-    const btn = document.getElementById('utab-' + t);
-    if(btn) {
-      btn.style.background = t === tab ? '#0d6efd' : 'var(--card,white)';
-      btn.style.color = t === tab ? 'white' : 'var(--foreground,#1e293b)';
-      btn.style.border = t === tab ? 'none' : '1.5px solid var(--border,#e2e8f0)';
+
+/* ─────────────────────────────────────────
+   3. NAVIGATION & VIEW SWITCHER
+───────────────────────────────────────── */
+function showSection(name) {
+  ['home','courses','videos','pricing','upload'].forEach(s => {
+    const el = document.getElementById('section-' + s);
+    if (el) el.style.display = (s === name) ? 'block' : 'none';
+
+    const btn = document.getElementById('nav-' + s);
+    if (btn) {
+      if (s === name) {
+        btn.classList.add('active');
+        btn.style.color = '#38bdf8';
+      } else {
+        btn.classList.remove('active');
+        btn.style.color = '#94a3b8';
+      }
+    }
+  });
+
+  if (name === 'home') renderHomeFeatured();
+  if (name === 'courses') renderCoursesCatalog('all');
+  if (name === 'videos') renderVideosCategory('revit');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+/* ─────────────────────────────────────────
+   4. RENDERERS: COURSES & VIDEOS
+───────────────────────────────────────── */
+function renderHomeFeatured() {
+  const container = document.getElementById('home-featured-courses');
+  if (!container) return;
+  const courses = getAllCourses().slice(0, 3);
+  container.innerHTML = courses.map(c => `
+    <div class="course-card" onclick="openCourseDetails('${c.id}')" style="background:#ffffff;border:1.5px solid #e2e8f0;border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div style="background:${c.color};height:160px;display:flex;align-items:center;justify-content:center;position:relative;">
+        <span style="font-size:56px;">${c.icon}</span>
+        ${c.badge ? `<span style="position:absolute;top:12px;right:12px;background:#f59e0b;color:white;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:900;">${c.badge}</span>` : ''}
+      </div>
+      <div style="padding:22px;">
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <span class="badge" style="background:#dbeafe;color:#1d4ed8;">${c.cat.toUpperCase()}</span>
+          <span class="badge" style="background:#dcfce7;color:#15803d;">${c.level}</span>
+        </div>
+        <h3 style="font-size:17px;font-weight:900;color:#0f172a;margin:0 0 8px;line-height:1.3;">${c.title}</h3>
+        <p style="color:#64748b;font-size:13px;line-height:1.55;margin:0 0 16px;">${c.desc}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid #f1f5f9;">
+          <div>
+            <span style="font-size:22px;font-weight:900;color:#2563eb;">$${c.price}</span>
+            <span style="font-size:13px;color:#94a3b8;text-decoration:line-through;margin-left:6px;">$${c.original || c.price * 2}</span>
+          </div>
+          <button onclick="event.stopPropagation();openModal('purchase','${c.id}')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">
+            Enroll Now
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCoursesCatalog(filterCat) {
+  const container = document.getElementById('catalog-courses-grid');
+  if (!container) return;
+  let list = getAllCourses();
+  if (filterCat !== 'all') list = list.filter(c => c.cat === filterCat);
+
+  container.innerHTML = list.map(c => `
+    <div class="course-card" onclick="openCourseDetails('${c.id}')" style="background:#ffffff;border:1.5px solid #e2e8f0;border-radius:18px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.06);">
+      <div style="background:${c.color};height:140px;display:flex;align-items:center;justify-content:center;position:relative;">
+        <span style="font-size:50px;">${c.icon}</span>
+        ${c.badge ? `<span style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.45);color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;">${c.badge}</span>` : ''}
+      </div>
+      <div style="padding:18px;">
+        <div style="display:flex;gap:6px;margin-bottom:8px;">
+          <span class="badge" style="background:#dbeafe;color:#1d4ed8;">${c.cat.toUpperCase()}</span>
+          <span class="badge" style="background:#fef3c7;color:#b45309;">${c.level}</span>
+        </div>
+        <h3 style="font-size:15px;font-weight:900;color:#0f172a;margin:0 0 6px;line-height:1.3;">${c.title}</h3>
+        <p style="color:#64748b;font-size:12.5px;line-height:1.5;margin:0 0 12px;">${c.desc}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <span style="font-size:20px;font-weight:900;color:#2563eb;">$${c.price}</span>
+            <span style="font-size:12px;color:#94a3b8;text-decoration:line-through;margin-left:4px;">$${c.original || c.price * 2}</span>
+          </div>
+          <button onclick="event.stopPropagation();openModal('purchase','${c.id}')" style="background:linear-gradient(135deg,#2563eb,#06b6d4);color:white;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;">
+            Enroll
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCoursesCatalog(cat) {
+  ['all','coordination','revit','autocad','navisworks'].forEach(b => {
+    const btn = document.getElementById('cfilter-' + b);
+    if (btn) {
+      if (b === cat) {
+        btn.style.background = '#2563eb';
+        btn.style.color = '#ffffff';
+        btn.style.border = 'none';
+      } else {
+        btn.style.background = '#ffffff';
+        btn.style.color = '#334155';
+        btn.style.border = '1.5px solid #e2e8f0';
+      }
+    }
+  });
+  renderCoursesCatalog(cat);
+}
+
+function renderVideosCategory(category) {
+  const container = document.getElementById('video-cards-grid');
+  if (!container) return;
+  let videos = getAllVideos();
+  if (category !== 'all_sims') {
+    videos = videos.filter(v => v.cat === category);
+  }
+
+  if (videos.length === 0) {
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#64748b;background:white;border-radius:16px;border:1px solid #e2e8f0;">No video lessons in this category yet. Use Admin Upload to publish new demonstrations.</div>`;
+    return;
+  }
+
+  container.innerHTML = videos.map(v => `
+    <div class="course-card" onclick="launchVideoPlayer('${v.ytId}','${v.title}','${v.desc}')" style="background:#ffffff;border:1.5px solid #e2e8f0;border-radius:16px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.06);">
+      <div class="video-thumb" style="height:165px;background:#030712;">
+        <img src="https://img.youtube.com/vi/${v.ytId}/mqdefault.jpg" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;opacity:0.8;" onerror="this.style.display='none'" />
+        <div class="play-btn">
+          <div class="play-icon" style="width:52px;height:52px;background:rgba(255,255,255,0.95);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.3);transition:transform 0.2s;">
+            <span style="font-size:20px;margin-left:3px;color:#2563eb;">▶</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span class="badge" style="background:#e0f2fe;color:#0369a1;">${v.cat.toUpperCase()}</span>
+          <span style="font-size:12px;color:#64748b;font-weight:700;">⏱ ${v.duration || 'Demo'}</span>
+        </div>
+        <h4 style="font-size:14.5px;font-weight:900;color:#0f172a;margin:0 0 6px;line-height:1.3;">${v.title}</h4>
+        <p style="color:#64748b;font-size:12.5px;line-height:1.45;margin:0;">${v.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchVideoCategory(cat, btn) {
+  document.querySelectorAll('.vtab-btn').forEach(b => {
+    b.style.color = '#64748b';
+    b.style.borderBottom = 'none';
+    b.style.fontWeight = '600';
+  });
+  btn.style.color = '#2563eb';
+  btn.style.borderBottom = '3px solid #2563eb';
+  btn.style.fontWeight = '700';
+  renderVideosCategory(cat);
+}
+
+function launchVideoPlayer(ytId, title, desc) {
+  document.getElementById('vmodal-title').textContent = title;
+  document.getElementById('vmodal-desc').textContent = desc;
+  document.getElementById('vmodal-player').innerHTML = `
+    <iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;border:none;border-radius:12px;"></iframe>
+  `;
+  openModal('video');
+}
+
+
+/* ─────────────────────────────────────────
+   5. ADMIN ACTIONS (PUBLISH VIDEOS & COURSES)
+───────────────────────────────────────── */
+function switchAdminUploadTab(tab) {
+  ['video','course','files'].forEach(t => {
+    const p = document.getElementById('admin-panel-' + t);
+    if (p) p.style.display = (t === tab) ? 'block' : 'none';
+
+    const btn = document.getElementById('atab-' + t);
+    if (btn) {
+      if (t === tab) {
+        btn.style.background = '#2563eb';
+        btn.style.color = '#ffffff';
+        btn.style.border = 'none';
+      } else {
+        btn.style.background = '#ffffff';
+        btn.style.color = '#334155';
+        btn.style.border = '1.5px solid #e2e8f0';
+      }
     }
   });
 }
 
-function addVideoFromUpload() {
-  const url = document.getElementById('upload-yt-url').value.trim();
-  const title = document.getElementById('upload-yt-title').value.trim();
-  const cat = document.getElementById('upload-yt-cat').value;
-  if(!url || !title) { showToast('⚠️ Please fill in URL and title','#f59e0b'); return; }
-  const ytId = extractYtId(url);
-  if(!ytId) { showToast('⚠️ Invalid YouTube URL','#ef4444'); return; }
-  userYtVideos[cat].push({ id:'yt_'+Date.now(), title, desc:'Added from upload section', ytId, duration:'YouTube' });
-  document.getElementById('upload-yt-url').value = '';
-  document.getElementById('upload-yt-title').value = '';
-  showToast('✅ Video added to library! View it in Video Library → YouTube tab','#22c55e');
-}
+function adminPublishVideo() {
+  const title = document.getElementById('new-video-title').value.trim();
+  const url = document.getElementById('new-video-url').value.trim();
+  const cat = document.getElementById('new-video-cat').value;
+  const duration = document.getElementById('new-video-duration').value.trim() || '25:00';
+  const desc = document.getElementById('new-video-desc').value.trim() || 'Practical BIM workflow demonstration.';
 
-function handleVideoUpload(input) {
-  if(input.files[0]) {
-    showToast('🎬 Video "' + input.files[0].name + '" selected! Click Upload Video to proceed.','#0d6efd');
+  if (!title || !url) {
+    showToast('⚠️ Title and YouTube URL are required', '#f59e0b');
+    return;
   }
+
+  const ytId = extractYoutubeId(url);
+  const newVideo = { id: 'vid_' + Date.now(), cat, title, desc, ytId, duration };
+
+  const customVideos = JSON.parse(localStorage.getItem(STORAGE_KEY_VIDEOS) || '[]');
+  customVideos.push(newVideo);
+  localStorage.setItem(STORAGE_KEY_VIDEOS, JSON.stringify(customVideos));
+
+  document.getElementById('new-video-title').value = '';
+  document.getElementById('new-video-url').value = '';
+  document.getElementById('new-video-duration').value = '';
+  document.getElementById('new-video-desc').value = '';
+
+  showToast('✅ Video successfully published to the live Video Library!', '#22c55e');
 }
 
-// ── Modals ────────────────────────────────────
-const purchaseInfo = {
-  'bim-coord': { name:'BIM Coordination & Advanced Workflows', price:'\$149' },
-  'revit-struct': { name:'Revit Structure Modeling Mastery', price:'\$119' },
-  'autocad-2d': { name:'AutoCAD 2D/3D for BIM Professionals', price:'\$89' },
-  'navisworks': { name:'Navisworks Clash Detection & Review', price:'\$109' },
-  'revit-mep': { name:'Revit MEP Systems Modeling', price:'\$119' },
-  'bim-management': { name:'BIM Management & ISO 19650', price:'\$139' },
-  'revit-families': { name:'Revit Custom Family Creation', price:'\$99' },
-  'civil-bim': { name:'Civil & Infrastructure BIM', price:'\$119' },
-  'pro-monthly': { name:'Professional Plan – Monthly', price:'\$49/mo' },
-  'enterprise': { name:'Enterprise Team Plan – Monthly', price:'\$199/mo' },
-};
+function adminPublishCourse() {
+  const title = document.getElementById('new-course-title').value.trim();
+  const cat = document.getElementById('new-course-cat').value;
+  const level = document.getElementById('new-course-level').value;
+  const price = Number(document.getElementById('new-course-price').value.trim()) || 99;
+  const lessons = document.getElementById('new-course-lessons').value.trim() || '20 lessons';
+  const desc = document.getElementById('new-course-desc').value.trim() || 'Comprehensive BIM masterclass.';
 
-function openModal(type, id) {
-  const container = document.getElementById('modal-container');
-  ['login','register','purchase','video','course'].forEach(t => {
-    document.getElementById('modal-' + t).style.display = 'none';
+  if (!title) {
+    showToast('⚠️ Course Title is required', '#f59e0b');
+    return;
+  }
+
+  const newCourse = {
+    id: 'course_' + Date.now(),
+    cat,
+    title,
+    desc,
+    level,
+    price,
+    original: price * 2,
+    color: 'linear-gradient(135deg,#0f172a,#2563eb)',
+    icon: '🏗️',
+    badge: '🆕 NEW'
+  };
+
+  const customCourses = JSON.parse(localStorage.getItem(STORAGE_KEY_COURSES) || '[]');
+  customCourses.push(newCourse);
+  localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(customCourses));
+
+  document.getElementById('new-course-title').value = '';
+  document.getElementById('new-course-price').value = '';
+  document.getElementById('new-course-lessons').value = '';
+  document.getElementById('new-course-desc').value = '';
+
+  showToast('✅ New BIM Course added to Course Catalog!', '#22c55e');
+}
+
+
+/* ─────────────────────────────────────────
+   6. POPUP MODAL HANDLERS
+───────────────────────────────────────── */
+function openModal(type, courseId) {
+  ['login','register','purchase','video'].forEach(t => {
+    const m = document.getElementById('modal-' + t);
+    if (m) m.style.display = 'none';
   });
-  if(type === 'purchase' && id) {
-    const info = purchaseInfo[id];
-    if(info) {
-      document.getElementById('purchase-title').textContent = 'Enroll: ' + info.name;
-      document.getElementById('purchase-item-name').textContent = info.name;
-      document.getElementById('purchase-item-price').textContent = info.price;
-      document.getElementById('purchase-total').textContent = info.price;
-    }
+
+  if (type === 'purchase') {
+    const course = getAllCourses().find(c => c.id === courseId) || { title: 'BSD BIM Professional Plan', price: 49 };
+    document.getElementById('purchase-title').textContent = 'Enroll: ' + course.title;
+    document.getElementById('purchase-item-name').textContent = course.title;
+    document.getElementById('purchase-item-price').textContent = '$' + course.price;
+    document.getElementById('purchase-total-price').textContent = '$' + course.price;
   }
-  document.getElementById('modal-' + type).style.display = '';
-  container.style.display = 'flex';
+
+  document.getElementById('modal-' + type).style.display = 'block';
+  document.getElementById('modal-container').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
   document.getElementById('modal-container').style.display = 'none';
   document.body.style.overflow = '';
-  // Stop YouTube video
-  const embed = document.getElementById('video-modal-embed');
-  if(embed) embed.innerHTML = '';
+  const player = document.getElementById('vmodal-player');
+  if (player) player.innerHTML = '';
 }
 
-function completePurchase() {
+function openCourseDetails(courseId) {
+  openModal('purchase', courseId);
+}
+
+function finishCheckout() {
   closeModal();
-  showToast('🎉 Purchase successful! Welcome to your new course!','#22c55e');
+  showToast('🎉 Purchase successful! You now have full lifetime access.', '#22c55e');
 }
 
-function formatCard(input) {
-  let v = input.value.replace(/\D/g,'').substring(0,16);
-  input.value = v.replace(/(.{4})/g,'$1 ').trim();
-}
 
-// ── Toast ─────────────────────────────────────
-function showToast(msg, color) {
+/* ─────────────────────────────────────────
+   7. TOAST NOTIFICATIONS & PARTICLES
+───────────────────────────────────────── */
+function showToast(msg, bg) {
   const t = document.createElement('div');
   t.className = 'toast';
-  t.style.background = color;
+  t.style.background = bg || '#2563eb';
   t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateY(30px)'; t.style.transition='all 0.3s'; setTimeout(()=>t.remove(),300); }, 3500);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(20px)';
+    t.style.transition = 'all 0.3s';
+    setTimeout(() => t.remove(), 300);
+  }, 3800);
 }
 
-// ── Drag & Drop ───────────────────────────────
+function spawnHeroParticles() {
+  const host = document.getElementById('particles-host');
+  if (!host) return;
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = (Math.random() * 100) + 'vw';
+    p.style.bottom = '-10px';
+    const sz = (Math.random() * 3 + 1.5);
+    p.style.width = sz + 'px';
+    p.style.height = sz + 'px';
+    p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+    p.style.animationDelay = (Math.random() * 6) + 's';
+    host.appendChild(p);
+  }
+}
+
+
+/* ─────────────────────────────────────────
+   8. INITIALIZATION
+───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  const zone = document.getElementById('video-drop');
-  if(zone) {
-    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-    zone.addEventListener('drop', e => {
-      e.preventDefault(); zone.classList.remove('drag-over');
-      const f = e.dataTransfer.files[0];
-      if(f) showToast('🎬 "' + f.name + '" ready to upload','#0d6efd');
-    });
+  spawnHeroParticles();
+  if (isAdminAuthenticated()) {
+    document.getElementById('admin-badge-indicator').style.display = 'inline-flex';
   }
   showSection('home');
 });
 
-// Keyboard ESC to close modal
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeAdminLock();
+  }
+});
 </script>
 
 </body>
