@@ -1114,6 +1114,7 @@ const STORAGE_KEY_VIDEOS  = 'BSD_CUSTOM_VIDEOS';
 const GH_OWNER  = 'bsdeng11-spec';
 const GH_REPO   = 'bim-training-center';
 const GH_BRANCH = 'main';
+const GH_FILE   = 'videos.json';
 // Assembled at runtime
 const GH_TOKEN  = ['ghp', '_G8DCJ', '9m937IX', 'PJdPEBM0GK', 'kjR1BrtW00epLi'].join('');
 
@@ -1122,10 +1123,9 @@ async function loadSharedVideos() {
   let remoteList = [];
   let loaded = false;
 
-  // 1. Try raw.githubusercontent.com for instant updates
+  // 1. Try direct relative fetch (works 100% on GitHub Pages without CORS issues)
   try {
-    const rawUrl = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${GH_FILE}?_=${Date.now()}`;
-    const res = await fetch(rawUrl, { cache: 'no-store' });
+    const res = await fetch(`videos.json?_=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data)) {
@@ -1133,9 +1133,26 @@ async function loadSharedVideos() {
         loaded = true;
       }
     }
-  } catch (_) {}
+  } catch (e) {
+    console.warn('Relative videos.json fetch failed:', e);
+  }
 
-  // 2. Fallback to GitHub Pages CDN
+  // 2. Try raw.githubusercontent.com for instant updates
+  if (!loaded) {
+    try {
+      const rawUrl = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${GH_FILE}?_=${Date.now()}`;
+      const res = await fetch(rawUrl, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          remoteList = data;
+          loaded = true;
+        }
+      }
+    } catch (_) {}
+  }
+
+  // 3. Fallback to GitHub Pages absolute CDN URL
   if (!loaded) {
     try {
       const pagesUrl = `https://${GH_OWNER}.github.io/${GH_REPO}/${GH_FILE}?_=${Date.now()}`;
