@@ -1,20 +1,11 @@
 [
   {
-    "id": "vid_1791632785923",
+    "id": "vid_1791635635990",
     "cat": "revit",
-    "title": "EP 07 HOW  TO  MODEL BASMENT FLOOR",
+    "title": "X rebar modeling",
     "desc": "Direct BIM modeling demonstration.",
-    "ytId": "local_vid_1791632785923",
-    "duration": "19:42",
-    "type": "local"
-  },
-  {
-    "id": "vid_1791632761193",
-    "cat": "revit",
-    "title": "EP 04 HOW  TO RENAME  LEVEL  ACCORDING ISO STANDARD",
-    "desc": "Direct BIM modeling demonstration.",
-    "ytId": "local_vid_1791632761193",
-    "duration": "6:38",
+    "ytId": "local_vid_1791635635990",
+    "duration": "10:47",
     "type": "local"
   },
   {
@@ -27,12 +18,21 @@
     "type": "local"
   },
   {
-    "id": "vid_1791635635990",
+    "id": "vid_1791632761193",
     "cat": "revit",
-    "title": "X rebar modeling",
+    "title": "EP 04 HOW  TO RENAME  LEVEL  ACCORDING ISO STANDARD",
     "desc": "Direct BIM modeling demonstration.",
-    "ytId": "local_vid_1791635635990",
-    "duration": "10:47",
+    "ytId": "local_vid_1791632761193",
+    "duration": "6:38",
+    "type": "local"
+  },
+  {
+    "id": "vid_1791632785923",
+    "cat": "revit",
+    "title": "EP 07 HOW  TO  MODEL BASMENT FLOOR",
+    "desc": "Direct BIM modeling demonstration.",
+    "ytId": "local_vid_1791632785923",
+    "duration": "19:42",
     "type": "local"
   },
   {
